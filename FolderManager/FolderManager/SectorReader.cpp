@@ -66,9 +66,9 @@ SectorReader::SectorReader()
 	//do nothing
 }
 
-SectorReader::SectorReader(LPCWSTR drive)  {
+SectorReader::SectorReader(LPCWSTR drive, int readPoint)  {
 	//If readSector successfully => _drive = drive
-	if (!readSector(drive, 0)) {
+	if (!readSector(drive, readPoint)) {
 		_drive = drive;
 	}
 
