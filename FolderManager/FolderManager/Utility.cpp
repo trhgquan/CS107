@@ -1,17 +1,23 @@
 #include "Utility.h"
+#include <sstream>
 
-/// <summary>
-/// Reverse a little endian bytes, calculate it in decimal
-/// </summary>
-/// <param name="bytes">std::vector<int></param>
-/// <returns>int</returns>
-int Utility::little_endian(const std::vector<int>& bytes) {
-	int coeff = 1, res = 0;
-
-	for (int i = 0; i < (size_t)bytes.size(); ++i) {
-		res += bytes[i] * coeff;
-		coeff *= 16;
+int Utility::valueInLittleEndian(BYTE* sector, int offset, int length) {
+	int res = 0;
+	int coeff = 1;
+	int endPos = offset + length;
+	for (int i = offset; i < endPos; ++i) {
+		res += (int)sector[i] * coeff;
+		coeff *= HEX*HEX;
 	}
 
 	return res;
+}
+
+std::string Utility::getStringFromSector(BYTE* sector, int offset, int length) {
+	std::stringstream builder;
+	int endPos = offset + length;
+	for (int i = offset; i < endPos; ++i) {
+		builder << (unsigned char)sector[i];
+	}
+	return builder.str();
 }
