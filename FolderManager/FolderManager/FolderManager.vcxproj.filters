@@ -13,24 +13,60 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Helper">
+      <UniqueIdentifier>{805becd3-6818-44e6-b28e-32320cf55bcc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Helper">
+      <UniqueIdentifier>{10223525-9ab0-4bdc-b4ba-dae9e63dee27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PartitionBootSectorStuffs">
+      <UniqueIdentifier>{b8b3f74e-4766-4a6f-95f2-d70062d5f1d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Interface">
+      <UniqueIdentifier>{ee34a104-a037-4ad8-9d22-a48ab31f090e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PartitionBootSectorStuffs">
+      <UniqueIdentifier>{be29351a-022f-4753-acff-bdd7e4a3bc96}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SectorReader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Utility.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="PartitionBootSector.h">
+      <Filter>Header Files\PartitionBootSectorStuffs</Filter>
+    </ClInclude>
+    <ClInclude Include="BIOSParameterBlock.h">
+      <Filter>Header Files\PartitionBootSectorStuffs</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtendedBIOSParameterBlock.h">
+      <Filter>Header Files\PartitionBootSectorStuffs</Filter>
+    </ClInclude>
+    <ClInclude Include="IBlock.h">
+      <Filter>Header Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="SectorReader.h">
+      <Filter>Header Files\Helper</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="SectorReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Utility.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="SectorReader.cpp">
+      <Filter>Source Files\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="BIOSParameterBlock.cpp">
+      <Filter>Source Files\PartitionBootSectorStuffs</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtendedBIOSParameterBlock.cpp">
+      <Filter>Source Files\PartitionBootSectorStuffs</Filter>
+    </ClCompile>
+    <ClCompile Include="PartitionBootSector.cpp">
+      <Filter>Source Files\PartitionBootSectorStuffs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

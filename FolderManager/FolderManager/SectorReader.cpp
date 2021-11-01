@@ -2,7 +2,7 @@
 
 
 /*Return 0 when successfully, else return !0*/
-int SectorReader::readSector(LPCWSTR drive, int readPoint) {
+int SectorReader::_readSector(LPCWSTR drive, int readPoint) {
 	int retCode = 0;
 	DWORD bytesRead;
 	HANDLE device = NULL;
@@ -31,13 +31,16 @@ int SectorReader::readSector(LPCWSTR drive, int readPoint) {
 	return 0;
 }
 
+int SectorReader::readSector(LPCWSTR drive, int readPoint) {
+	return _readSector(drive, readPoint);
+}
 
 
 //Getter and Setter
 void SectorReader::setDrive(LPCWSTR drive) { _drive = drive; }
 LPCWSTR SectorReader::drive() { return _drive; }
 BYTE* SectorReader::sector() { return _sector; }
-BYTE* SectorReader::sector(LPCWSTR drive) {
+BYTE* SectorReader::sector(LPCWSTR drive, int readPoint) {
 
 	//If _drive == drive 
 	//	=> read drive doesn't change
@@ -51,7 +54,7 @@ BYTE* SectorReader::sector(LPCWSTR drive) {
 
 	//If read sector successfully
 	//	=> update new drive
-	if (!readSector(drive, 0)) {
+	if (!_readSector(drive, readPoint)) {
 		_drive = drive;
 	}
 
@@ -68,7 +71,7 @@ SectorReader::SectorReader()
 
 SectorReader::SectorReader(LPCWSTR drive, int readPoint)  {
 	//If readSector successfully => _drive = drive
-	if (!readSector(drive, readPoint)) {
+	if (!_readSector(drive, readPoint)) {
 		_drive = drive;
 	}
 
