@@ -22,7 +22,7 @@ void PartitionTable::setIndex(int index) {
 
 //API
 std::string PartitionTable::toString() { return _toString(); }				//For output 
-void PartitionTable::readSector(BYTE*& sector) { _readSector(sector); }		//Inject data from sector to private attribute
+void PartitionTable::readSector(BYTE* sector) { _readSector(sector); }		//Inject data from sector to private attribute
 
 std::string PartitionTable::_toString() {
 	std::stringstream builder;

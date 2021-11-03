@@ -10,11 +10,11 @@ BIOSParameterBlock VolumeBootRecord::BPB() { return BIOSParameterBlock(); }	//re
 
 //API
 std::string VolumeBootRecord::toString() { return _toString(); }
-void VolumeBootRecord::readSector(BYTE*& sector) { _readSector(sector); }
+void VolumeBootRecord::readSector(BYTE* sector) { _readSector(sector); }
 
 std::string VolumeBootRecord::_toString() {
 	std::stringstream builder;
-	builder << "- Partition Boot Sector (PBS):\n";
+	builder << "- Volume Boot Record (VBR):\n";
 	builder << "- Jump instruction: 0x" << std::hex << _JumpInstruction << std::dec << "\n";
 	builder << "- End-of-sector marker: 0x" << std::hex << _endOfSectorMarker;
 	return builder.str();

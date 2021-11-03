@@ -12,7 +12,7 @@ int NTFS_ExtendedBIOSParameterBlock::bytePerIndexBuffer() { return _bytePerIndex
 int NTFS_ExtendedBIOSParameterBlock::volumeSerialNumber() { return _volumeSerialNumber; }
 
 //API
-void NTFS_ExtendedBIOSParameterBlock::readSector(BYTE*& sector) { _readSector(sector); }
+void NTFS_ExtendedBIOSParameterBlock::readSector(BYTE* sector) { _readSector(sector); }
 std::string NTFS_ExtendedBIOSParameterBlock::toString() { return _toString(); }
 
 void NTFS_ExtendedBIOSParameterBlock::_readSector(BYTE*& sector) {

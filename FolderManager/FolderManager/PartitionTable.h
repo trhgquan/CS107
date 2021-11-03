@@ -50,7 +50,7 @@ public: //getter
 
 public: //API
 	std::string toString() override;		//API for _toString() 
-	void readSector(BYTE*&) override;		//API for _readSector() 
+	void readSector(BYTE*) override;		//API for _readSector() 
 
 public:	//Constructor and Destructor
 	PartitionTable();			//default constructor

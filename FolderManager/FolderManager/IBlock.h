@@ -13,7 +13,7 @@ class IBlock {
 
 public: //API
 	virtual std::string toString() = 0;		//For output
-	virtual void readSector(BYTE*&) = 0;	//Inject data from sector to private attribute
+	virtual void readSector(BYTE*) = 0;	//Inject data from sector to private attribute
 
 public:
 	virtual ~IBlock() 
