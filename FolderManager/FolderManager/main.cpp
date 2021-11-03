@@ -1,25 +1,34 @@
 #include "SectorReader.h"
-#include "PartitionBootSector.h"
+#include "NTFS_VolumeBootRecord.h"
+#include "MasterBootRecord.h"
 #include "Utility.h"
 #include <iostream>
 
 int main() {
 
-	//Read buffer from drive //D:
-	SectorReader reader(L"\\\\.\\D:", 0 * DEFAULT_BUFFER_SIZE);
+	/*This is how to read Master Boot Record (MBR), but this project doesn't need to read MBR :'(((( */
+	/********************************************************************************************/
+	/*
+	MasterBootRecord MBR;
+	std::cout << MBR.toString() << "\n\n";
 
-	//Get the index of VBR sector (0-indexing)
-	int VBRSectorIndex = Utility::valueInLittleEndian(reader.sector(), 0x01BE + 8, 4);
-	printf("%d\n", VBRSectorIndex);
-
-	//Get the sector from the VBRSectorIndex-sector
-	reader.readSector(L"\\\\.\\D:", VBRSectorIndex*DEFAULT_BUFFER_SIZE);
+	//Get the boot sector from the first partition table in MBR
+	SectorReader reader(L"\\\\.\\PhysicalDrive0", 
+		MBR.partitionTables().at(0).relativeSector()*DEFAULT_BUFFER_SIZE);
 
 	//Load the sector to parse data
 	PartitionBootSector PBS(reader.sector());
 
 	//Print data
 	std::cout << PBS.toString() << "\n";
+	*/
+	/********************************************************************************************/
+
+
+
+	SectorReader reader2(L"\\\\.\\C:", 0 * DEFAULT_BUFFER_SIZE);
+	NTFS_VolumeBootRecord PBS2(reader2.sector());
+	std::cout << PBS2.toString() << "\n";
 
 	system("PAUSE");
 	return 0;

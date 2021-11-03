@@ -6,7 +6,9 @@
 #include <string>
 #include <windows.h>
 
-//Interface for all block/sector in this project
+//Interface for all block/sector in this project 
+//	(Except: Master Boot Record (MBR), 
+//	because the sector MBR read is always the first sector of "\\\\.\\PhysicalDrive0")
 class IBlock {
 
 public: //API

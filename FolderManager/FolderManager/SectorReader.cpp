@@ -17,6 +17,7 @@ int SectorReader::_readSector(LPCWSTR drive, int readPoint) {
 
 	if (INVALID_HANDLE_VALUE == device) { // Open Error
 		printf("CreateFile: %u\n", GetLastError());
+		CloseHandle(device);
 		return 1;
 	}
 
@@ -24,9 +25,11 @@ int SectorReader::_readSector(LPCWSTR drive, int readPoint) {
 
 	if (!ReadFile(device, _sector, DEFAULT_BUFFER_SIZE, &bytesRead, NULL)) {
 		printf("ReadFile: %u\n", GetLastError());
+		CloseHandle(device);
 		return 2;
 	}
 
+	CloseHandle(device);
 	printf("Success!\n");
 	return 0;
 }
