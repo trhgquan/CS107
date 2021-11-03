@@ -11,7 +11,7 @@ int BIOSParameterBlock::numberOfHeads() { return _numberOfHeads; }
 int BIOSParameterBlock::hiddenSectors() { return _hiddenSectors; }
 
 //API
-void BIOSParameterBlock::readSector(BYTE*& sector) { _readSector(sector); }
+void BIOSParameterBlock::readSector(BYTE* sector) { _readSector(sector); }
 std::string BIOSParameterBlock::toString() { return _toString(); }
 
 //Inject data from sector to private attribute

@@ -8,7 +8,14 @@ NTFS_ExtendedBIOSParameterBlock NTFS_VolumeBootRecord::EBPB() { return _EBPB; }
 
 //API
 std::string NTFS_VolumeBootRecord::toString() { return _toString(); }
-void NTFS_VolumeBootRecord::readSector(BYTE*& sector) { _readSector(sector); }
+void NTFS_VolumeBootRecord::readSector(BYTE* sector) { 
+
+	//if we want to read sector again, we have to read these field, 
+	//	because we don't read them in NTFS_VolumeBootRecord::_readSector(BYTE*&)
+	((VolumeBootRecord)*this).readSector(sector);	
+
+	_readSector(sector); 
+}
 
 void NTFS_VolumeBootRecord::_readSector(BYTE*& sector) {
 	//((VolumeBootRecord*)this)->readSector(sector);	//No need, cause we already read these field on constructor
@@ -18,7 +25,7 @@ void NTFS_VolumeBootRecord::_readSector(BYTE*& sector) {
 
 std::string NTFS_VolumeBootRecord::_toString() {
 	std::stringstream builder;
-	builder << "- Partition Boot Sector (PBS):\n";
+	builder << "- NTFS Volume Boot Record (NTFS VBR):\n";
 	builder << "- Jump instruction: 0x" << std::hex << _JumpInstruction << std::dec << "\n";
 	builder << "- OEM ID: " << _OEM_ID << "\n";
 	builder << _BPB.toString() << "\n";

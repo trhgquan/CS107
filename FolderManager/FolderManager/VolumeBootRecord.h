@@ -24,7 +24,7 @@ public:	//Getter
 
 public:	//API
 	virtual std::string toString() override;	//API for _toString()
-	virtual void readSector(BYTE*&) override;	//API for _readSector()
+	virtual void readSector(BYTE*) override;	//API for _readSector()
 
 public:	//Constructor/destructor
 	VolumeBootRecord();
