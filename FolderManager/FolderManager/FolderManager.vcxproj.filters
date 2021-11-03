@@ -19,34 +19,58 @@
     <Filter Include="Source Files\Helper">
       <UniqueIdentifier>{10223525-9ab0-4bdc-b4ba-dae9e63dee27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\PartitionBootSectorStuffs">
-      <UniqueIdentifier>{b8b3f74e-4766-4a6f-95f2-d70062d5f1d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Interface">
       <UniqueIdentifier>{ee34a104-a037-4ad8-9d22-a48ab31f090e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\PartitionBootSectorStuffs">
+    <Filter Include="Header Files\NTFS">
+      <UniqueIdentifier>{5a7ddea1-6ddb-4ae0-b962-bd6e2120cad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NTFS">
+      <UniqueIdentifier>{3100eea5-4e1f-43b0-9724-be977cb4af9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Universal Block">
+      <UniqueIdentifier>{9ad9060d-3122-4c6f-9bf2-a9dfce31f455}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Universal Block">
+      <UniqueIdentifier>{4a4cd2df-92c1-4ea1-a424-5055685631df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NTFS\BootSectorStuffs">
       <UniqueIdentifier>{be29351a-022f-4753-acff-bdd7e4a3bc96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\NTFS\BootSectorStuffs">
+      <UniqueIdentifier>{b8b3f74e-4766-4a6f-95f2-d70062d5f1d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="PartitionBootSector.h">
-      <Filter>Header Files\PartitionBootSectorStuffs</Filter>
-    </ClInclude>
-    <ClInclude Include="BIOSParameterBlock.h">
-      <Filter>Header Files\PartitionBootSectorStuffs</Filter>
-    </ClInclude>
-    <ClInclude Include="ExtendedBIOSParameterBlock.h">
-      <Filter>Header Files\PartitionBootSectorStuffs</Filter>
-    </ClInclude>
     <ClInclude Include="IBlock.h">
       <Filter>Header Files\Interface</Filter>
     </ClInclude>
     <ClInclude Include="SectorReader.h">
       <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="MasterBootRecord.h">
+      <Filter>Header Files\Universal Block</Filter>
+    </ClInclude>
+    <ClInclude Include="PartitionTable.h">
+      <Filter>Header Files\Universal Block</Filter>
+    </ClInclude>
+    <ClInclude Include="BIOSParameterBlock.h">
+      <Filter>Header Files\Universal Block</Filter>
+    </ClInclude>
+    <ClInclude Include="VolumeBootRecord.h">
+      <Filter>Header Files\Universal Block</Filter>
+    </ClInclude>
+    <ClInclude Include="NTFS_ExtendedBIOSParameterBlock.h">
+      <Filter>Header Files\NTFS\BootSectorStuffs</Filter>
+    </ClInclude>
+    <ClInclude Include="NTFS_BIOSParameterBlock.h">
+      <Filter>Header Files\NTFS\BootSectorStuffs</Filter>
+    </ClInclude>
+    <ClInclude Include="NTFS_VolumeBootRecord.h">
+      <Filter>Header Files\NTFS\BootSectorStuffs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -59,14 +83,23 @@
     <ClCompile Include="SectorReader.cpp">
       <Filter>Source Files\Helper</Filter>
     </ClCompile>
+    <ClCompile Include="MasterBootRecord.cpp">
+      <Filter>Source Files\Universal Block</Filter>
+    </ClCompile>
+    <ClCompile Include="PartitionTable.cpp">
+      <Filter>Source Files\Universal Block</Filter>
+    </ClCompile>
+    <ClCompile Include="VolumeBootRecord.cpp">
+      <Filter>Source Files\Universal Block</Filter>
+    </ClCompile>
     <ClCompile Include="BIOSParameterBlock.cpp">
-      <Filter>Source Files\PartitionBootSectorStuffs</Filter>
+      <Filter>Source Files\Universal Block</Filter>
     </ClCompile>
-    <ClCompile Include="ExtendedBIOSParameterBlock.cpp">
-      <Filter>Source Files\PartitionBootSectorStuffs</Filter>
+    <ClCompile Include="NTFS_ExtendedBIOSParameterBlock.cpp">
+      <Filter>Source Files\NTFS\BootSectorStuffs</Filter>
     </ClCompile>
-    <ClCompile Include="PartitionBootSector.cpp">
-      <Filter>Source Files\PartitionBootSectorStuffs</Filter>
+    <ClCompile Include="NTFS_VolumeBootRecord.cpp">
+      <Filter>Source Files\NTFS\BootSectorStuffs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

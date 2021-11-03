@@ -6,7 +6,7 @@
 
 class BIOSParameterBlock: public IBlock {
 
-private: //Private attribute
+protected: //Protected attribute for inheriting
 	int _bytesPerSector;
 	int _sectorPerCluster;
 	char* _mediaDiscriptor = "Fixed Disk";
@@ -14,7 +14,7 @@ private: //Private attribute
 	int _numberOfHeads;
 	int _hiddenSectors;
 
-private: //Private utility method
+protected: //Protected utility method for inhertiting
 	std::string _toString();	//For output 
 	void _readSector(BYTE*&);	//Inject data from sector to private attribute
 
