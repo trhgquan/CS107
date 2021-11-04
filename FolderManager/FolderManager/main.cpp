@@ -30,7 +30,7 @@ int main() {
 
 	//Tutorial to use NTFS_VolumeBootRecord to read data 
 	//	from Volume Boot Record in C:\ drive which run on NTFS format
-	SectorReader reader2(L"\\\\.\\C:", 0 * DEFAULT_BUFFER_SIZE);
+	SectorReader reader2(L"\\\\.\\D:", 0 * DEFAULT_BUFFER_SIZE);
 	NTFS_VolumeBootRecord NTFS_VBR2(reader2.sector());
 
 	//Print the data
