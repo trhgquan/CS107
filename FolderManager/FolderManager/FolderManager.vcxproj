@@ -111,6 +111,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="BIOSParameterBlock.h" />
+    <ClInclude Include="FAT32_BIOSParameterBlock.h" />
+    <ClInclude Include="FAT32_VolumeBootRecord.h" />
     <ClInclude Include="IBlock.h" />
     <ClInclude Include="NTFS_BIOSParameterBlock.h" />
     <ClInclude Include="NTFS_ExtendedBIOSParameterBlock.h" />
@@ -123,6 +125,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BIOSParameterBlock.cpp" />
+    <ClCompile Include="FAT32_BIOSParameterBlock.cpp" />
+    <ClCompile Include="FAT32_VolumeBootRecord.cpp" />
     <ClCompile Include="NTFS_ExtendedBIOSParameterBlock.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MasterBootRecord.cpp" />
