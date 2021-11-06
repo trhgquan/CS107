@@ -40,6 +40,18 @@
     <Filter Include="Header Files\NTFS\BootSectorStuffs">
       <UniqueIdentifier>{b8b3f74e-4766-4a6f-95f2-d70062d5f1d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\FAT32">
+      <UniqueIdentifier>{9a912544-718e-4415-aeed-ab93b4c5564a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FAT32">
+      <UniqueIdentifier>{b1a93f68-4bf4-4954-9687-d7f4e73dd3c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FAT32\BootSectorStuffs">
+      <UniqueIdentifier>{023ad7ae-5d7a-48f6-adf9-648f01a9ca22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FAT32\BootSectorStuffs">
+      <UniqueIdentifier>{dbb00ceb-b113-4519-af82-a721a61a6f07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility.h">
@@ -72,6 +84,12 @@
     <ClInclude Include="NTFS_VolumeBootRecord.h">
       <Filter>Header Files\NTFS\BootSectorStuffs</Filter>
     </ClInclude>
+    <ClInclude Include="FAT32_BIOSParameterBlock.h">
+      <Filter>Header Files\FAT32\BootSectorStuffs</Filter>
+    </ClInclude>
+    <ClInclude Include="FAT32_VolumeBootRecord.h">
+      <Filter>Header Files\FAT32\BootSectorStuffs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -100,6 +118,12 @@
     </ClCompile>
     <ClCompile Include="NTFS_VolumeBootRecord.cpp">
       <Filter>Source Files\NTFS\BootSectorStuffs</Filter>
+    </ClCompile>
+    <ClCompile Include="FAT32_BIOSParameterBlock.cpp">
+      <Filter>Source Files\FAT32\BootSectorStuffs</Filter>
+    </ClCompile>
+    <ClCompile Include="FAT32_VolumeBootRecord.cpp">
+      <Filter>Source Files\FAT32\BootSectorStuffs</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,9 @@
 #include "SectorReader.h"
 #include "NTFS_VolumeBootRecord.h"
+#include "FAT32_VolumeBootRecord.h"
 #include "MasterBootRecord.h"
 #include "Utility.h"
+
 #include <iostream>
 
 int main() {
@@ -27,7 +29,8 @@ int main() {
 	*/
 	/********************************************************************************************/
 
-
+	/********************************************************************************************/
+	/*
 	//Tutorial to use NTFS_VolumeBootRecord to read data 
 	//	from Volume Boot Record in C:\ drive which run on NTFS format
 	SectorReader reader2(L"\\\\.\\C:", 0 * DEFAULT_BUFFER_SIZE);
@@ -35,6 +38,21 @@ int main() {
 
 	//Print the data
 	std::cout << NTFS_VBR2.toString() << "\n";	//This is the same result with line 26
+	*/
+	/********************************************************************************************/
+
+	/********************************************************************************************/
+	
+	
+	//Tutorial to use FAT32_VolumeBootRecord to read data 
+	//	from Volume Boot Record in G:\ drive (which is Nhat Dang's USB) which run on FAT32 format
+	SectorReader reader3(L"\\\\.\\G:", 0 * DEFAULT_BUFFER_SIZE);
+	FAT32_VolumeBootRecord FAT32_VBR(reader3.sector());
+
+	//Print the data
+	std::cout << FAT32_VBR.toString() << "\n";
+	
+	/********************************************************************************************/
 
 	system("PAUSE");
 	return 0;

@@ -15,8 +15,8 @@ protected: //Protected attribute for inheriting
 	int _hiddenSectors;
 
 protected: //Protected utility method for inhertiting
-	std::string _toString();	//For output 
-	void _readSector(BYTE*&);	//Inject data from sector to private attribute
+	virtual std::string _toString();	//For output 
+	virtual void _readSector(BYTE*&);	//Inject data from sector to private attribute
 
 public:	//Getter 
 	int bytesPerSector();
