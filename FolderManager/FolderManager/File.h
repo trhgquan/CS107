@@ -10,10 +10,11 @@
 class File {
 
 protected://attributes
-	std::string _name;		//the name of file/folder
+	std::string _name;		//the name of file/folder (including extension)
 	std::string _status;	//the type of file, folder, etc
 	int _size;				//calculate in byte
 	std::pair<int, int> _sectors;	//_sectors.first = the start sector, _sectors.second = the last sector
+	std::string _content;	//content only to print data in .txt file
 
 private: //private utilities
 	
@@ -30,6 +31,7 @@ public:	//getter
 	virtual std::string status() final;
 	virtual int size() final;
 	virtual std::pair<int, int> sectors() final;
+	virtual std::string content();
 
 public: //API
 
@@ -38,7 +40,7 @@ public: //API
 
 public:	//constructor/destructor
 	File();
-	File(std::string, std::string, int, std::pair<int, int>);
+	File(std::string, std::string, int, std::pair<int, int>, std::string content = "");
 	virtual ~File();
 };
 
