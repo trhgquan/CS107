@@ -21,7 +21,7 @@ private://Private utilities
 	void _readSector(BYTE*&);		//Inject data from sector to private attribute
 
 public: //Getter
-	BIOSParameterBlock BPB() override;
+	FAT32_BIOSParameterBlock* BPB() override;
 	int driverNumber();
 	int reserved();
 	int bootSignature();

@@ -4,7 +4,7 @@
 #include <bitset>
 
 //Getter
-int FAT32_BIOSParameterBlock::numberOfSectorsForBootSector() { return _numberOfSectorsForBootSector; }
+int FAT32_BIOSParameterBlock::numberOfSectorsBeforeFAT() { return _numberOfSectorsBeforeFAT; }
 int FAT32_BIOSParameterBlock::numberOfFATs() { return _numberOfFATs; }
 int FAT32_BIOSParameterBlock::numberOfSectorsInVolumes() { return _numberOfSectorsInVolumes; }
 int FAT32_BIOSParameterBlock::sectorPerFAT() { return _sectorPerFAT; }
@@ -27,7 +27,7 @@ void FAT32_BIOSParameterBlock::readSector(BYTE* sector)
 std::string FAT32_BIOSParameterBlock::toString() { return _toString(); }
 
 void FAT32_BIOSParameterBlock::_readSector(BYTE*& sector) {
-	_numberOfSectorsForBootSector = Utility::valueInLittleEndian(sector, 0xE, 2);
+	_numberOfSectorsBeforeFAT = Utility::valueInLittleEndian(sector, 0xE, 2);
 	_numberOfFATs = Utility::valueInLittleEndian(sector, 0x10, 1);
 	_numberOfSectorsInVolumes = Utility::valueInLittleEndian(sector, 0x20, 4);
 	_sectorPerFAT = Utility::valueInLittleEndian(sector, 0x24, 4);
@@ -49,7 +49,7 @@ void FAT32_BIOSParameterBlock::_readSector(BYTE*& sector) {
 std::string FAT32_BIOSParameterBlock::_toString() {
 	std::stringstream builder;
 	builder << ((BIOSParameterBlock)*this).toString() << "\n";
-	builder << "\t+ Number of sectors for Boot Sector: " << _numberOfSectorsForBootSector << "\n";
+	builder << "\t+ Number of sectors for Boot Sector: " << _numberOfSectorsBeforeFAT << "\n";
 	builder << "\t+ Number of FATs: " << _numberOfFATs << "\n";
 	builder << "\t+ Number of sectors in volume: " << _numberOfSectorsInVolumes << "\n";
 	builder << "\t+ Number of sectors per FAT: " << _sectorPerFAT << "\n";

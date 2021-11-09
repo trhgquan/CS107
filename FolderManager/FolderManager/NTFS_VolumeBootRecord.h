@@ -17,7 +17,7 @@ private://private utility method
 	void _readSector(BYTE*&) override;		//Inject data from sector to private attribute
 
 public:	//Getter
-	NTFS_BIOSParameterBlock BPB() override;			
+	NTFS_BIOSParameterBlock* BPB() override;			
 	NTFS_ExtendedBIOSParameterBlock EBPB();	
 
 public: //API

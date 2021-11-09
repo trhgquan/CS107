@@ -90,6 +90,9 @@
     <ClInclude Include="FAT32_VolumeBootRecord.h">
       <Filter>Header Files\FAT32\BootSectorStuffs</Filter>
     </ClInclude>
+    <ClInclude Include="FAT.h">
+      <Filter>Header Files\FAT32</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -124,6 +127,9 @@
     </ClCompile>
     <ClCompile Include="FAT32_VolumeBootRecord.cpp">
       <Filter>Source Files\FAT32\BootSectorStuffs</Filter>
+    </ClCompile>
+    <ClCompile Include="FAT.cpp">
+      <Filter>Source Files\FAT32</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
