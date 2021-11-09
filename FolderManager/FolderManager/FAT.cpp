@@ -47,14 +47,14 @@ std::pair<int, int> FAT::_trace(int startClusterIndex) {
 
 	//Get the start data sector
 	int startDataSector = _bootSector.BPB()->numberOfSectorsBeforeFAT()
-		+ _bootSector.BPB()->numberOfFATs() * _FAT_size;
+		+ _bootSector.BPB()->numberOfFATs() * _bootSector.BPB()->sectorPerFAT();
 		
 	//The name say all
 	int sectorPerCluster = _bootSector.BPB()->sectorPerCluster();
 
 	//Some easy formula to get start sector index and end sector index from
 	//start cluster index and end cluster index
-	int startSectorIndex = startDataSector + startClusterIndex * sectorPerCluster;
+	int startSectorIndex = startDataSector + (startClusterIndex - 2) * sectorPerCluster;
 	int endSectorIndex = startSectorIndex + (endClusterIndex - startClusterIndex)* sectorPerCluster + (sectorPerCluster - 1);
 
 	return std::make_pair(startSectorIndex, endSectorIndex);
@@ -67,13 +67,12 @@ void FAT::_initData() {
 	int sectorPerFat = _bootSector.BPB()->sectorPerFAT();
 	int bytesPerSector = _bootSector.BPB()->bytesPerSector();
 	int sectorBeforeFAT = _bootSector.BPB()->numberOfSectorsBeforeFAT();
-	int bytesBeforeFAT = sectorBeforeFAT * bytesPerSector;
 
 	//Get the size of FAT
 	_FAT_size = sectorPerFat * bytesPerSector;
 
 	//Read the FAT sector
-	SectorReader reader(_drive, bytesBeforeFAT, _FAT_size);
+	SectorReader reader(_drive, sectorBeforeFAT, _FAT_size);
 	/*
 	reader.setDrive(_drive);
 	reader.setNumberBytesRead(_FAT_size);
