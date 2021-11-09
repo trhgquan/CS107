@@ -20,8 +20,8 @@ private:	//private static utilities
 private:	//private utilities
 
 	//Param: int: start cluster index to trace in the FAT
-	//output:	int: .first = start cluster index
-	//			int: .second = end cluster index
+	//output:	int: .first = start SECTOR index
+	//			int: .second = end CLUSTER index
 	std::pair<int, int> _trace(int);
 
 	//After using setter to set attributes, use this to re-initialize data in class
