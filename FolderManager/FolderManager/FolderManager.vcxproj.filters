@@ -34,23 +34,29 @@
     <Filter Include="Source Files\Universal Block">
       <UniqueIdentifier>{4a4cd2df-92c1-4ea1-a424-5055685631df}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\NTFS\BootSectorStuffs">
-      <UniqueIdentifier>{be29351a-022f-4753-acff-bdd7e4a3bc96}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\NTFS\BootSectorStuffs">
-      <UniqueIdentifier>{b8b3f74e-4766-4a6f-95f2-d70062d5f1d2}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\FAT32">
       <UniqueIdentifier>{9a912544-718e-4415-aeed-ab93b4c5564a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\FAT32">
       <UniqueIdentifier>{b1a93f68-4bf4-4954-9687-d7f4e73dd3c2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\FAT32\BootSectorStuffs">
+    <Filter Include="Header Files\Model">
+      <UniqueIdentifier>{1d1a8c46-922b-44d3-85b9-fd41d4264ac1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Model">
+      <UniqueIdentifier>{bea07b91-13ea-4d3a-9974-45e56ff948d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FAT32\BootSector">
       <UniqueIdentifier>{023ad7ae-5d7a-48f6-adf9-648f01a9ca22}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\FAT32\BootSectorStuffs">
+    <Filter Include="Source Files\FAT32\BootSector">
       <UniqueIdentifier>{dbb00ceb-b113-4519-af82-a721a61a6f07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NTFS\BootSector">
+      <UniqueIdentifier>{be29351a-022f-4753-acff-bdd7e4a3bc96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\NTFS\BootSector">
+      <UniqueIdentifier>{b8b3f74e-4766-4a6f-95f2-d70062d5f1d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -76,22 +82,25 @@
       <Filter>Header Files\Universal Block</Filter>
     </ClInclude>
     <ClInclude Include="NTFS_ExtendedBIOSParameterBlock.h">
-      <Filter>Header Files\NTFS\BootSectorStuffs</Filter>
+      <Filter>Header Files\NTFS\BootSector</Filter>
     </ClInclude>
     <ClInclude Include="NTFS_BIOSParameterBlock.h">
-      <Filter>Header Files\NTFS\BootSectorStuffs</Filter>
+      <Filter>Header Files\NTFS\BootSector</Filter>
     </ClInclude>
     <ClInclude Include="NTFS_VolumeBootRecord.h">
-      <Filter>Header Files\NTFS\BootSectorStuffs</Filter>
+      <Filter>Header Files\NTFS\BootSector</Filter>
     </ClInclude>
     <ClInclude Include="FAT32_BIOSParameterBlock.h">
-      <Filter>Header Files\FAT32\BootSectorStuffs</Filter>
+      <Filter>Header Files\FAT32\BootSector</Filter>
     </ClInclude>
     <ClInclude Include="FAT32_VolumeBootRecord.h">
-      <Filter>Header Files\FAT32\BootSectorStuffs</Filter>
+      <Filter>Header Files\FAT32\BootSector</Filter>
     </ClInclude>
     <ClInclude Include="FAT.h">
       <Filter>Header Files\FAT32</Filter>
+    </ClInclude>
+    <ClInclude Include="File.h">
+      <Filter>Header Files\Model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -117,19 +126,22 @@
       <Filter>Source Files\Universal Block</Filter>
     </ClCompile>
     <ClCompile Include="NTFS_ExtendedBIOSParameterBlock.cpp">
-      <Filter>Source Files\NTFS\BootSectorStuffs</Filter>
+      <Filter>Source Files\NTFS\BootSector</Filter>
     </ClCompile>
     <ClCompile Include="NTFS_VolumeBootRecord.cpp">
-      <Filter>Source Files\NTFS\BootSectorStuffs</Filter>
+      <Filter>Source Files\NTFS\BootSector</Filter>
     </ClCompile>
     <ClCompile Include="FAT32_BIOSParameterBlock.cpp">
-      <Filter>Source Files\FAT32\BootSectorStuffs</Filter>
+      <Filter>Source Files\FAT32\BootSector</Filter>
     </ClCompile>
     <ClCompile Include="FAT32_VolumeBootRecord.cpp">
-      <Filter>Source Files\FAT32\BootSectorStuffs</Filter>
+      <Filter>Source Files\FAT32\BootSector</Filter>
     </ClCompile>
     <ClCompile Include="FAT.cpp">
       <Filter>Source Files\FAT32</Filter>
+    </ClCompile>
+    <ClCompile Include="File.cpp">
+      <Filter>Source Files\Model</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

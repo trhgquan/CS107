@@ -43,7 +43,21 @@ std::pair<int, int> FAT::_trace(int startClusterIndex) {
 
 		++endClusterIndex;
 	} while (!_isEOF(data));
-	return std::make_pair(startClusterIndex, endClusterIndex - 1);
+	--endClusterIndex;		
+
+	//Get the start data sector
+	int startDataSector = _bootSector.BPB()->numberOfSectorsBeforeFAT()
+		+ _bootSector.BPB()->numberOfFATs() * _FAT_size;
+		
+	//The name say all
+	int sectorPerCluster = _bootSector.BPB()->sectorPerCluster();
+
+	//Some easy formula to get start sector index and end sector index from
+	//start cluster index and end cluster index
+	int startSectorIndex = startDataSector + startClusterIndex * sectorPerCluster;
+	int endSectorIndex = startSectorIndex + (endClusterIndex - startClusterIndex)* sectorPerCluster + (sectorPerCluster - 1);
+
+	return std::make_pair(startSectorIndex, endSectorIndex);
 }
  
 void FAT::_initData() {
