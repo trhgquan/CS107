@@ -7,7 +7,7 @@
 class FAT32_BIOSParameterBlock: public BIOSParameterBlock {
 
 private:	//private attribue
-	int _numberOfSectorsForBootSector;
+	int _numberOfSectorsBeforeFAT;
 	int _numberOfFATs;
 	int _numberOfSectorsInVolumes;
 	int _sectorPerFAT;
@@ -23,7 +23,7 @@ private:	//private utilities
 	void _readSector(BYTE*&) override;	//Inject data from sector to private attribute
 
 public:		//getter
-	int numberOfSectorsForBootSector();
+	int numberOfSectorsBeforeFAT();
 	int numberOfFATs();
 	int numberOfSectorsInVolumes();
 	int sectorPerFAT();

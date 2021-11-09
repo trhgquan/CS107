@@ -3,7 +3,7 @@
 #include <sstream>
 
 //Getter
-BIOSParameterBlock FAT32_VolumeBootRecord::BPB() { return _BPB; }
+FAT32_BIOSParameterBlock* FAT32_VolumeBootRecord::BPB() { return &_BPB; }
 int FAT32_VolumeBootRecord::driverNumber() { return _driverNumber; }
 int FAT32_VolumeBootRecord::reserved() { return _reserved; }
 int FAT32_VolumeBootRecord::bootSignature() { return _bootSignature; }

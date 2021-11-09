@@ -3,7 +3,7 @@
 #include <sstream>
 
 //Getter
-NTFS_BIOSParameterBlock NTFS_VolumeBootRecord::BPB() { return _BPB; }
+NTFS_BIOSParameterBlock* NTFS_VolumeBootRecord::BPB() { return &_BPB; }
 NTFS_ExtendedBIOSParameterBlock NTFS_VolumeBootRecord::EBPB() { return _EBPB; }
 
 //API

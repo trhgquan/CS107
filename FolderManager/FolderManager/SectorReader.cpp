@@ -23,7 +23,7 @@ int SectorReader::_readSector(LPCWSTR drive, int readPoint) {
 
 	SetFilePointer(device, readPoint, NULL, FILE_BEGIN);	//Set a Point to Read
 
-	if (!ReadFile(device, _sector, DEFAULT_BUFFER_SIZE, &bytesRead, NULL)) {
+	if (!ReadFile(device, _sector, _numberBytesRead, &bytesRead, NULL)) {
 		printf("ReadFile: %u\n", GetLastError());
 		CloseHandle(device);
 		return 2;
@@ -41,7 +41,20 @@ int SectorReader::readSector(LPCWSTR drive, int readPoint) {
 
 //Getter and Setter
 void SectorReader::setDrive(LPCWSTR drive) { _drive = drive; }
+void SectorReader::setNumberBytesRead(int numberBytesRead) { 
+	_numberBytesRead = numberBytesRead; 
+
+	//Delete current _sector
+	if (_sector) 
+	{ 
+		delete[]_sector; 
+	}
+
+	//Allocate new data
+	_sector = new BYTE[_numberBytesRead + 2];
+}
 LPCWSTR SectorReader::drive() { return _drive; }
+int SectorReader::numberBytesRead() { return _numberBytesRead; }
 BYTE* SectorReader::sector() { return _sector; }
 BYTE* SectorReader::sector(LPCWSTR drive, int readPoint) {
 
@@ -72,7 +85,11 @@ SectorReader::SectorReader()
 	//do nothing
 }
 
-SectorReader::SectorReader(LPCWSTR drive, int readPoint)  {
+SectorReader::SectorReader(LPCWSTR drive, int readPoint, int numberBytesRead)  {
+
+	_numberBytesRead = numberBytesRead;
+	_sector = new BYTE[_numberBytesRead + 2];
+
 	//If readSector successfully => _drive = drive
 	if (!_readSector(drive, readPoint)) {
 		_drive = drive;
@@ -84,5 +101,10 @@ SectorReader::SectorReader(LPCWSTR drive, int readPoint)  {
 
 SectorReader::~SectorReader()
 {
-	//do nothing
+
+	//Delete unused memory
+	if (_sector) {
+		delete[]_sector;
+		_sector = nullptr;
+	}
 }
