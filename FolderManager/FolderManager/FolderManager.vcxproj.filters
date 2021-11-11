@@ -58,6 +58,18 @@
     <Filter Include="Header Files\NTFS\BootSector">
       <UniqueIdentifier>{b8b3f74e-4766-4a6f-95f2-d70062d5f1d2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\FAT32\Entry">
+      <UniqueIdentifier>{739405da-5f0a-44e9-ab83-7a1f27701940}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FAT32\Entry">
+      <UniqueIdentifier>{cde85214-1542-45c2-93f8-4b98ae7e611b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\FAT32\RDET">
+      <UniqueIdentifier>{1681cc0a-075b-49bb-b906-fc75485f1816}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\FAT32\RDET">
+      <UniqueIdentifier>{2649a66a-2996-433f-b9d4-042257b5aeb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Utility.h">
@@ -102,6 +114,15 @@
     <ClInclude Include="File.h">
       <Filter>Header Files\Model</Filter>
     </ClInclude>
+    <ClInclude Include="AbstractEntry.h">
+      <Filter>Header Files\FAT32\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="LongFilename.h">
+      <Filter>Header Files\FAT32\Entry</Filter>
+    </ClInclude>
+    <ClInclude Include="Entry.h">
+      <Filter>Header Files\FAT32\Entry</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -142,6 +163,15 @@
     </ClCompile>
     <ClCompile Include="File.cpp">
       <Filter>Source Files\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="AbstractEntry.cpp">
+      <Filter>Source Files\FAT32\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="LongFilename.cpp">
+      <Filter>Source Files\FAT32\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="Entry.cpp">
+      <Filter>Source Files\FAT32\Entry</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

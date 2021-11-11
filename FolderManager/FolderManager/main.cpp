@@ -4,6 +4,7 @@
 #include "MasterBootRecord.h"
 #include "Utility.h"
 #include "FAT.h"
+#include "Entry.h"
 
 #include <iostream>
 
@@ -63,11 +64,25 @@ void testFAT32() {
 
 
 	//Print raw data from RDET
-	int length = (RDET.second - RDET.first) *FAT32_VBR.BPB()->bytesPerSector();
+	int length = (RDET.second - RDET.first + 1) *FAT32_VBR.BPB()->bytesPerSector();
 	SectorReader reader4(reader3.drive(), RDET.first, length);
-	for (int i = 0; i < length; ++i)
+	int h = length / AbstractEntry::bytesPerEntry();
+	std::vector<LongFilename> dummy;
+	for (int i = 0; i < h; ++i)
 	{
-		std::cout << (unsigned char)reader4.sector()[i];
+		BYTE* buffer = reader4.sector() + (AbstractEntry::bytesPerEntry() * i);
+		if (0xE5 != buffer[0])
+		{
+			while (0x0F == buffer[0xB]) {
+				LongFilename lfn(buffer);
+				dummy.push_back(lfn);
+				++i;
+				buffer = reader4.sector() + (AbstractEntry::bytesPerEntry() * i);
+			}
+
+			Entry entry(buffer, dummy);
+			dummy.clear();
+		}
 	}
 	std::cout << std::endl;
 
@@ -76,8 +91,8 @@ void testFAT32() {
 int main() {
 
 	//testMBR();
-	testNTFS();
-	//testFAT32();
+	//testNTFS();
+	testFAT32();
 	
 
 	system("PAUSE");

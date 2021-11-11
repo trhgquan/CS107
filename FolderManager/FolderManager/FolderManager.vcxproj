@@ -110,12 +110,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AbstractEntry.h" />
     <ClInclude Include="BIOSParameterBlock.h" />
+    <ClInclude Include="Entry.h" />
     <ClInclude Include="FAT.h" />
     <ClInclude Include="FAT32_BIOSParameterBlock.h" />
     <ClInclude Include="FAT32_VolumeBootRecord.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="IBlock.h" />
+    <ClInclude Include="LongFilename.h" />
     <ClInclude Include="NTFS_BIOSParameterBlock.h" />
     <ClInclude Include="NTFS_ExtendedBIOSParameterBlock.h" />
     <ClInclude Include="MasterBootRecord.h" />
@@ -126,11 +129,14 @@
     <ClInclude Include="VolumeBootRecord.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AbstractEntry.cpp" />
     <ClCompile Include="BIOSParameterBlock.cpp" />
+    <ClCompile Include="Entry.cpp" />
     <ClCompile Include="FAT.cpp" />
     <ClCompile Include="FAT32_BIOSParameterBlock.cpp" />
     <ClCompile Include="FAT32_VolumeBootRecord.cpp" />
     <ClCompile Include="File.cpp" />
+    <ClCompile Include="LongFilename.cpp" />
     <ClCompile Include="NTFS_ExtendedBIOSParameterBlock.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MasterBootRecord.cpp" />
