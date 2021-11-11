@@ -1,11 +1,22 @@
 #include "SectorReader.h"
 
+/*
+ WARNING: SectorReader::_readSector(LPCWSTR drive, unsigned int sectorIndex) only execute correctly when 
+ the number of bytes per sector is 512 (byte)
+*/
 
 /*Return 0 when successfully, else return !0*/
-int SectorReader::_readSector(LPCWSTR drive, int readPoint) {
+/*Read all _numberBytesRead bytes from the sector which have sectorIndex in drive and store in _sector*/
+/*Sector is 0-indexing*/
+int SectorReader::_readSector(LPCWSTR drive, unsigned int sectorIndex) {
 	int retCode = 0;
 	DWORD bytesRead;
 	HANDLE device = NULL;
+
+	//Get the low word and high word of the sector byte
+	unsigned long long fullWord = sectorIndex * DEFAULT_BUFFER_SIZE;
+	unsigned int lowWord = fullWord & 0xFFFFFFFF;	//First 32bit of full word
+	long highWord = (fullWord & ~(0xFFFFFFFF)) >> 32;	//Second 32bit of full word
 
 	device = CreateFileW(drive,						// Drive to open
 		GENERIC_READ,								// Access mode
@@ -21,9 +32,9 @@ int SectorReader::_readSector(LPCWSTR drive, int readPoint) {
 		return 1;
 	}
 
-	SetFilePointer(device, readPoint, NULL, FILE_BEGIN);	//Set a Point to Read
+	SetFilePointer(device, lowWord, &highWord, FILE_BEGIN);	//Set a Point to Read
 
-	if (!ReadFile(device, _sector, DEFAULT_BUFFER_SIZE, &bytesRead, NULL)) {
+	if (!ReadFile(device, _sector, _numberBytesRead, &bytesRead, NULL)) {
 		printf("ReadFile: %u\n", GetLastError());
 		CloseHandle(device);
 		return 2;
@@ -34,37 +45,28 @@ int SectorReader::_readSector(LPCWSTR drive, int readPoint) {
 	return 0;
 }
 
-int SectorReader::readSector(LPCWSTR drive, int readPoint) {
-	return _readSector(drive, readPoint);
+int SectorReader::readSector(LPCWSTR drive,unsigned int sectorIndex) {
+	return _readSector(drive, sectorIndex);
 }
 
 
 //Getter and Setter
 void SectorReader::setDrive(LPCWSTR drive) { _drive = drive; }
-LPCWSTR SectorReader::drive() { return _drive; }
-BYTE* SectorReader::sector() { return _sector; }
-BYTE* SectorReader::sector(LPCWSTR drive, int readPoint) {
+void SectorReader::setNumberBytesRead(int numberBytesRead) { 
+	_numberBytesRead = numberBytesRead; 
 
-	//If _drive == drive 
-	//	=> read drive doesn't change
-	//	=> doesn't need to read sector again
-	if (!lstrcmpW(_drive, drive)) {
-		return _sector;
+	//Delete current _sector
+	if (_sector) 
+	{ 
+		delete[]_sector; 
 	}
 
-	//if _drive != drive
-	//	=>Try to read sector
-
-	//If read sector successfully
-	//	=> update new drive
-	if (!_readSector(drive, readPoint)) {
-		_drive = drive;
-	}
-
-	//return the new _sector if update successfully,
-	//	or the old _sector in vice versa
-	return  _sector;
+	//Allocate new data
+	_sector = new BYTE[_numberBytesRead + 2];
 }
+LPCWSTR SectorReader::drive() { return _drive; }
+int SectorReader::numberBytesRead() { return _numberBytesRead; }
+BYTE* SectorReader::sector() { return _sector; }
 
 //Constructor and Destructor
 SectorReader::SectorReader()
@@ -72,9 +74,13 @@ SectorReader::SectorReader()
 	//do nothing
 }
 
-SectorReader::SectorReader(LPCWSTR drive, int readPoint)  {
+SectorReader::SectorReader(LPCWSTR drive, unsigned int sectorIndex, int numberBytesRead)  {
+
+	_numberBytesRead = numberBytesRead;
+	_sector = new BYTE[_numberBytesRead + 2];
+
 	//If readSector successfully => _drive = drive
-	if (!_readSector(drive, readPoint)) {
+	if (!_readSector(drive, sectorIndex)) {
 		_drive = drive;
 	}
 
@@ -84,5 +90,10 @@ SectorReader::SectorReader(LPCWSTR drive, int readPoint)  {
 
 SectorReader::~SectorReader()
 {
-	//do nothing
+
+	//Delete unused memory
+	if (_sector) {
+		delete[]_sector;
+		_sector = nullptr;
+	}
 }

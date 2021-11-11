@@ -3,7 +3,7 @@
 #include <sstream>
 
 //Getter
-NTFS_BIOSParameterBlock NTFS_VolumeBootRecord::BPB() { return _BPB; }
+NTFS_BIOSParameterBlock* NTFS_VolumeBootRecord::BPB() { return &_BPB; }
 NTFS_ExtendedBIOSParameterBlock NTFS_VolumeBootRecord::EBPB() { return _EBPB; }
 
 //API
@@ -12,13 +12,13 @@ void NTFS_VolumeBootRecord::readSector(BYTE* sector) {
 
 	//if we want to read sector again, we have to read these field, 
 	//	because we don't read them in NTFS_VolumeBootRecord::_readSector(BYTE*&)
-	((VolumeBootRecord)*this).readSector(sector);	
+	VolumeBootRecord::_readSector(sector);	
 
 	_readSector(sector); 
 }
 
 void NTFS_VolumeBootRecord::_readSector(BYTE*& sector) {
-	//((VolumeBootRecord*)this)->readSector(sector);	//No need, cause we already read these field on constructor
+	//VolumeBootRecord::_readSector(sector);		//No need, cause we already read these field on constructor
 	_BPB.readSector(sector);
 	_EBPB.readSector(sector);
 }

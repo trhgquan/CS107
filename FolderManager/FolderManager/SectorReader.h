@@ -9,27 +9,27 @@
 
 class SectorReader {
 private:
-	BYTE _sector[DEFAULT_BUFFER_SIZE];
+	BYTE* _sector = nullptr;
 	LPCWSTR  _drive = L"";
+	int _numberBytesRead;
 
 private: //private utilites method
-	int _readSector(LPCWSTR, int);	//return 0 when read successfully, and != 0 vice versa
+	int _readSector(LPCWSTR, unsigned int);	//return 0 when read successfully, and != 0 vice versa
 
 public: //public utilities method
-	int readSector(LPCWSTR, int);
+	int readSector(LPCWSTR, unsigned int);	//API for _readSector(LPCWSTR, unsigned int)
 
 public:	//Getter and setter
-
-	BYTE* sector();				//return sector for the current read drive (highly reccommend using this to get the _sector for the fastest execution)
-	BYTE* sector(LPCWSTR, int);	//return sector for a selected drive from a readPoint
+	BYTE* sector();				//return sector for the current read drive
 	LPCWSTR drive();				//return the current read drive
+	int numberBytesRead();		//return the number of bytes to read
 	void setDrive(LPCWSTR);				//set a new drive to read
-	//_sector doesn't need setter
+	void setNumberBytesRead(int); //set new number of bytes to read
 
 public:	//Constructor and destructor
 
 	SectorReader();				//default constructor
-	SectorReader(LPCWSTR, int);	//parameter constructor
+	SectorReader(LPCWSTR,unsigned int, int numberBytesRead = DEFAULT_BUFFER_SIZE);	//parameter constructor
 	~SectorReader();			//destructor
 
 };

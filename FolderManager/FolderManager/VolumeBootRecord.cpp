@@ -6,7 +6,7 @@
 int VolumeBootRecord::JumpInstruction() { return _JumpInstruction; }
 std::string VolumeBootRecord::OEM_ID() { return _OEM_ID; }
 int VolumeBootRecord::endOfSectorMarker() { return _endOfSectorMarker; }
-BIOSParameterBlock VolumeBootRecord::BPB() { return BIOSParameterBlock(); }	//return an empty BPB
+BIOSParameterBlock* VolumeBootRecord::BPB() { return nullptr; }	//return an empty BPB
 
 //API
 std::string VolumeBootRecord::toString() { return _toString(); }

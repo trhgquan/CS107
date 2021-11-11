@@ -19,7 +19,7 @@ protected://Protect utilities for inheriting
 public:	//Getter
 	int JumpInstruction();
 	std::string OEM_ID();
-	virtual BIOSParameterBlock BPB();	//NTFS_BPB and FAT32_BPB need to override this method
+	virtual BIOSParameterBlock* BPB();	//NTFS_BPB and FAT32_BPB need to override this method
 	int endOfSectorMarker();
 
 public:	//API
