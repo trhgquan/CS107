@@ -4,12 +4,13 @@
 
 #include "IBlock.h"
 #include "NTFS_MFTBlock.h"
-#include "SectorReader.h"
+#include "NTFS_VolumeBootRecord.h"
+#include <vector>
 
 class NTFS_MasterFileTable : public IBlock {
 private:
   unsigned int _startingSector;
-  NTFS_MasterFileTableBlock _MFTB;
+  std::vector<NTFS_MasterFileTableBlock> _MFTB;
 
 private:
   std::string _toString();
@@ -18,13 +19,17 @@ private:
 public:
   NTFS_MasterFileTable();
   ~NTFS_MasterFileTable();
-  NTFS_MasterFileTable(BYTE*);
+  NTFS_MasterFileTable(NTFS_VolumeBootRecord);
 
 public:
   std::string toString();
   void readSector(BYTE*);
+  
   unsigned int startingSector();
-  void setMFTB(NTFS_MasterFileTableBlock);
+  
+  void setMFTB(const NTFS_MasterFileTableBlock&);
+  std::vector<NTFS_MasterFileTableBlock> MFTB();
+
 };
 
 #endif

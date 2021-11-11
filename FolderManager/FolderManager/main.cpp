@@ -41,13 +41,20 @@ void testNTFS() {
 	std::cout << NTFS_VBR2.toString() << "\n";	//This is the same result with line 26
 
 	// Listing out all files inside disk
-	NTFS_MasterFileTable MFT(reader2.sector());
+	NTFS_MasterFileTable MFT(NTFS_VBR2);
 
-	std::cout << "MFT Starting sector: " << MFT.startingSector() << '\n';
+	int i = 26;
+	try {
+		SectorReader MFT_reader(reader2.drive(), MFT.startingSector() + (1024 * i), 1024);	
 
-	unsigned int statingSector = NTFS_VBR2.EBPB().MFTClusterNumber() * NTFS_VBR2.BPB()->bytesPerSector();
+		MFT.readSector(MFT_reader.sector());
 
-	SectorReader reader3(L"\\\\.\\D:", statingSector, 1024);
+		for (auto block : MFT.MFTB()) {
+			std::cout << block.toString() << '\n';
+		}
+	} catch (const std::exception& e) {
+		std::cout << e.what() << '\n';
+	}
 }
 
 void testFAT32() {

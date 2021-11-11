@@ -6,7 +6,13 @@
 
 class NTFS_MasterFileTableBlock : public IBlock {
 private:
-  std::string _signature;
+  const unsigned int FILE_FLAG = 0x01;
+  const unsigned int FODLER_FLAG = 0x02;
+
+  std::string _fileName;
+  unsigned int _fileSize;
+  unsigned int _fileSizeAllocated;
+  unsigned int _flags;
 
 private:
   void _readSector(BYTE*);
