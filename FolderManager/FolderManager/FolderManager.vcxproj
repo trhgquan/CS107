@@ -122,6 +122,8 @@
     <ClInclude Include="NTFS_BIOSParameterBlock.h" />
     <ClInclude Include="NTFS_ExtendedBIOSParameterBlock.h" />
     <ClInclude Include="MasterBootRecord.h" />
+    <ClInclude Include="NTFS_MasterFileTable.h" />
+    <ClInclude Include="NTFS_MFTBlock.h" />
     <ClInclude Include="NTFS_VolumeBootRecord.h" />
     <ClInclude Include="PartitionTable.h" />
     <ClInclude Include="SectorReader.h" />
@@ -140,6 +142,8 @@
     <ClCompile Include="NTFS_ExtendedBIOSParameterBlock.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MasterBootRecord.cpp" />
+    <ClCompile Include="NTFS_MasterFileTable.cpp" />
+    <ClCompile Include="NTFS_MFTBlock.cpp" />
     <ClCompile Include="NTFS_VolumeBootRecord.cpp" />
     <ClCompile Include="PartitionTable.cpp" />
     <ClCompile Include="SectorReader.cpp" />

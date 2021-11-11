@@ -1,5 +1,6 @@
 #include "SectorReader.h"
 #include "NTFS_VolumeBootRecord.h"
+#include "NTFS_MasterFileTable.h"
 #include "FAT32_VolumeBootRecord.h"
 #include "MasterBootRecord.h"
 #include "Utility.h"
@@ -32,12 +33,21 @@ void testNTFS() {
 
 	//Tutorial to use NTFS_VolumeBootRecord to read data
 	//	from Volume Boot Record in C:\ drive which run on NTFS format
-	SectorReader reader2(L"\\\\.\\D:", 0 * DEFAULT_BUFFER_SIZE);
+	SectorReader reader2(L"\\\\.\\D:", 0);
 
 	NTFS_VolumeBootRecord NTFS_VBR2(reader2.sector());
 
 	//Print the data
 	std::cout << NTFS_VBR2.toString() << "\n";	//This is the same result with line 26
+
+	// Listing out all files inside disk
+	NTFS_MasterFileTable MFT(reader2.sector());
+
+	std::cout << "MFT Starting sector: " << MFT.startingSector() << '\n';
+
+	unsigned int statingSector = NTFS_VBR2.EBPB().MFTClusterNumber() * NTFS_VBR2.BPB()->bytesPerSector();
+
+	SectorReader reader3(L"\\\\.\\D:", statingSector, 1024);
 }
 
 void testFAT32() {
@@ -91,8 +101,8 @@ void testFAT32() {
 int main() {
 
 	//testMBR();
-	//testNTFS();
-	testFAT32();
+	testNTFS();
+	// testFAT32();
 	
 
 	system("PAUSE");
