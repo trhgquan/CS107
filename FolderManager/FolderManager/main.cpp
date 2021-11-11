@@ -38,6 +38,13 @@ void testNTFS() {
 
 	//Print the data
 	std::cout << NTFS_VBR2.toString() << "\n";	//This is the same result with line 26
+
+	unsigned int test = NTFS_VBR2.EBPB().MFTClusterNumber() * NTFS_VBR2.BPB()->sectorPerCluster();
+	SectorReader reader3(reader2.drive(), test, 1024);
+	for (int i = 0; i < 1024; ++i) {
+		std::cout << reader3.sector()[i];
+	}
+	std::cout << std::endl;
 }
 
 void testFAT32() {
@@ -80,7 +87,7 @@ void testFAT32() {
 				buffer = reader4.sector() + (AbstractEntry::bytesPerEntry() * i);
 			}
 
-			Entry entry(buffer, dummy);
+			Entry entry(buffer, &fat, dummy);
 			dummy.clear();
 		}
 	}
@@ -91,8 +98,8 @@ void testFAT32() {
 int main() {
 
 	//testMBR();
-	//testNTFS();
-	testFAT32();
+	testNTFS();
+	//testFAT32();
 	
 
 	system("PAUSE");

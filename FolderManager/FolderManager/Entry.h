@@ -2,6 +2,7 @@
 #ifndef _ENTRY_H_
 #define _ENTRY_H_
 
+#include "FAT.h"
 #include "AbstractEntry.h"
 #include "LongFilename.h"
 #include "File.h"
@@ -10,6 +11,7 @@
 class Entry: public AbstractEntry {
 
 private:	//private attributes 
+	FAT* _fat;
 	std::vector<LongFilename> _LFNs;
 	std::string _name;
 	int _startCluster;
@@ -22,6 +24,7 @@ private:	//private utilities
 	void _readEntry(BYTE*&);
 
 public:		//Getter
+	
 	std::vector<LongFilename> LFNs();
 	std::string name() override;
 	int startCluster();
@@ -32,8 +35,8 @@ public:
 
 public:
 	Entry();
-	Entry(BYTE*&);	//For entry isn't having LFNs
-	Entry(BYTE*&, std::vector<LongFilename>);	//For entry which having LFNS
+	Entry(BYTE*&, FAT*);	//For entry isn't having LFNs
+	Entry(BYTE*&, FAT*, std::vector<LongFilename>);	//For entry which having LFNS
 	~Entry() override; 
 };
 

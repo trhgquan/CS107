@@ -31,6 +31,7 @@ public:		//Getter and Setter
 	BYTE* data();
 	int FAT_size();
 	LPCWSTR drive();
+	FAT32_VolumeBootRecord bootSector();
 	void setBootSector(const FAT32_VolumeBootRecord&);
 	void setDrive(const LPCWSTR&);
 

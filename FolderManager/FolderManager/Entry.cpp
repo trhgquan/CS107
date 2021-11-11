@@ -104,13 +104,13 @@ Entry::Entry(): AbstractEntry()
 }
 
 
-Entry::Entry(BYTE*& entry) : AbstractEntry(entry)
-{
+Entry::Entry(BYTE*& entry, FAT* fat) : AbstractEntry(entry) {
+	_fat = fat;
 	_readEntry(entry);
 }
 
-Entry::Entry(BYTE*& entry, std::vector<LongFilename> LFNs) : AbstractEntry(entry)
-{
+Entry::Entry(BYTE*& entry, FAT* fat, std::vector<LongFilename> LFNs) : AbstractEntry(entry) {
+	_fat = fat;
 	_LFNs = LFNs;
 	_readEntry(entry);
 }

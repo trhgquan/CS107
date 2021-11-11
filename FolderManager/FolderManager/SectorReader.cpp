@@ -45,7 +45,20 @@ int SectorReader::_readSector(LPCWSTR drive, unsigned int sectorIndex) {
 	return 0;
 }
 
-int SectorReader::readSector(LPCWSTR drive,unsigned int sectorIndex) {
+int SectorReader::readSector(LPCWSTR drive,unsigned int sectorIndex, int numberByteRead) {
+	if (_numberBytesRead != numberByteRead) {
+		_numberBytesRead = numberByteRead;
+
+		//Delete current _sector
+		if (_sector)
+		{
+			delete[]_sector;
+		}
+
+		//Allocate new data
+		_sector = new BYTE[_numberBytesRead + 2];
+	}
+
 	return _readSector(drive, sectorIndex);
 }
 

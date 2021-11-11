@@ -17,7 +17,7 @@ private: //private utilites method
 	int _readSector(LPCWSTR, unsigned int);	//return 0 when read successfully, and != 0 vice versa
 
 public: //public utilities method
-	int readSector(LPCWSTR, unsigned int);	//API for _readSector(LPCWSTR, unsigned int)
+	int readSector(LPCWSTR, unsigned int, int numberBytesRead = DEFAULT_BUFFER_SIZE);	//API for _readSector(LPCWSTR, unsigned int)
 
 public:	//Getter and setter
 	BYTE* sector();				//return sector for the current read drive

@@ -123,6 +123,9 @@
     <ClInclude Include="Entry.h">
       <Filter>Header Files\FAT32\Entry</Filter>
     </ClInclude>
+    <ClInclude Include="RDET.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -172,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="Entry.cpp">
       <Filter>Source Files\FAT32\Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="RDET.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
