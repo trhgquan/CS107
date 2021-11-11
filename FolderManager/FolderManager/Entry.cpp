@@ -1,5 +1,7 @@
 #include "Entry.h"
+#include "SDET.h"
 #include "Utility.h"
+#include "SectorReader.h"
 #include <sstream>
 
 //Getter
@@ -7,7 +9,24 @@ std::vector<LongFilename> Entry::LFNs() { return _LFNs; }
 std::string Entry::name() { return _name; }
 int Entry::startCluster() { return _startCluster; };
 int Entry::size() { return _size; };
+File Entry::file() { return _file; };
+SDET* Entry::sdet() { return _sdet; }
 
+//API
+std::string Entry::toString(int level) { return _toString(level); }
+
+std::string Entry::_toString(int level) {
+	std::stringstream builder;
+	builder << _file.toString(level);
+	if (_sdet) {
+		for (Entry* entry : _sdet->entries()) 
+		{
+			builder << "\n\n" << entry -> toString(level + 1);
+		}
+	}
+
+	return builder.str();
+}
 
 void Entry::_modulateName_noLFNs(BYTE*& entry) {
 	std::stringstream builder;
@@ -91,11 +110,68 @@ void Entry::_modulateName(BYTE*& entry) {
 	_modulateName_LFNs(entry);
 }
 
+void Entry::_getSDET() {
+	
+	//If the entry has a folder => get its SDEt
+	if (0x10 == _attribute)
+	{
+		_sdet = new SDET(_fat, _startCluster);
+	}	
+}
+
+void Entry::_getFile() {
+
+	//Get the attribute string (only support for File and Folder)
+	std::string attribute;
+	if (0x20 == _attribute) attribute = "File";
+	else if (0x10 == _attribute) attribute = "Folder";
+
+	//Get the sectors for file
+	std::pair<int, int> sectors = _fat->trace(_startCluster);
+
+	//Get the content for the file
+	std::string content;
+
+	//If the entry has a file => if it's a .txt file, get it content
+	if (0x20 == _attribute) {
+		int dotPos = _name.find('.', 0);
+		std::string extension = _name.substr(dotPos + 1, 3);
+
+		if ("txt" == extension || "TXT" == extension) {
+			int size = (sectors.second - sectors.first + 1) *_fat->bootSector().BPB()->bytesPerSector();
+			
+			//Must read size characters from drive, because number of bytes read = i * 512 (i >= 1)
+			SectorReader reader(_fat->drive(), sectors.first, size);
+
+			//get only _size characters from _sector
+			char* buffer = new char[_size + 2];
+			memcpy(buffer, reader.sector(), _size * sizeof(char));
+			buffer[_size] = '\0';
+			content = std::string(buffer);
+
+			delete[]buffer;
+		}
+	}
+
+	_file = File(_name, attribute, _size, sectors, content);
+
+}
+
+int Entry::_getStartCluster(BYTE*& entry) {
+	int lowWord = Utility::valueInLittleEndian(entry, 0x1A, 2);
+	int highWord = Utility::valueInLittleEndian(entry, 0x14, 2);
+	return (highWord << 8) + lowWord;
+}
+
 void Entry::_readEntry(BYTE*& entry) {
 
-	_startCluster = Utility::valueInLittleEndian(entry, 0x1A, 2);
+
+	_startCluster = _getStartCluster(entry);
 	_size = Utility::valueInLittleEndian(entry, 0x1C, 4);
 	_modulateName(entry);
+	_getSDET();
+	_getFile();
+
 }
 
 Entry::Entry(): AbstractEntry()
@@ -118,5 +194,8 @@ Entry::Entry(BYTE*& entry, FAT* fat, std::vector<LongFilename> LFNs) : AbstractE
 
 Entry::~Entry()
 {
-	//do nothing
+	if (_sdet) {
+		delete _sdet;
+		_sdet = nullptr;
+	}
 }

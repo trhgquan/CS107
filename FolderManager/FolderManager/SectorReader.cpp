@@ -10,7 +10,7 @@
 /*Sector is 0-indexing*/
 int SectorReader::_readSector(LPCWSTR drive, unsigned int sectorIndex) {
 	int retCode = 0;
-	DWORD bytesRead;
+	DWORD bytesRead = _numberBytesRead;
 	HANDLE device = NULL;
 
 	//Get the low word and high word of the sector byte
@@ -41,7 +41,7 @@ int SectorReader::_readSector(LPCWSTR drive, unsigned int sectorIndex) {
 	}
 
 	CloseHandle(device);
-	printf("Success!\n");
+	//printf("Success!\n");
 	return 0;
 }
 
