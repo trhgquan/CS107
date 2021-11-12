@@ -70,6 +70,11 @@
     <Filter Include="Source Files\Format\FAT32\DirectoryEntryTable">
       <UniqueIdentifier>{2649a66a-2996-433f-b9d4-042257b5aeb1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\NTFS\MasterFileTable">
+      <UniqueIdentifier>{bb688a63-1c40-416a-9813-3d4a473efcc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\NTFS\MasterFileTable">
+      <UniqueIdentifier>{0ac74b09-470f-42b0-9fcb-fefb20f1d3c3}</UniqueIdentifier>
     <Filter Include="Source Files\Format\NTFS">
       <UniqueIdentifier>{3100eea5-4e1f-43b0-9724-be977cb4af9c}</UniqueIdentifier>
     </Filter>
@@ -144,6 +149,12 @@
     <ClInclude Include="FormatFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="NTFS_MasterFileTable.h">
+      <Filter>Header Files\NTFS\MasterFileTable</Filter>
+    </ClInclude>
+    <ClInclude Include="NTFS_MFTBlock.h">
+      <Filter>Header Files\NTFS\MasterFileTable</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -208,6 +219,12 @@
     </ClCompile>
     <ClCompile Include="FormatFactory.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NTFS_MasterFileTable.cpp">
+      <Filter>Source Files\NTFS\MasterFileTable</Filter>
+    </ClCompile>
+    <ClCompile Include="NTFS_MFTBlock.cpp">
+      <Filter>Source Files\NTFS\MasterFileTable</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
