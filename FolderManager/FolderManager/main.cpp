@@ -1,12 +1,9 @@
 #include "SectorReader.h"
 #include "NTFS_VolumeBootRecord.h"
-#include "FAT32_VolumeBootRecord.h"
 #include "MasterBootRecord.h"
 #include "Utility.h"
-#include "FAT.h"
-//#include "Entry.h"
-#include "RDET.h"
-#include "AbstractFormat.h"
+#include "FormatFactory.h"
+
 #include <iostream>
 
 
@@ -50,8 +47,8 @@ void testNTFS() {
 }
 
 void testFAT32() {
-	AbstractFormat format;
-	format.run(L"\\\\.\\G:");
+	FormatFactory factory;
+	factory.run(L"\\\\.\\G:");
 }
 
 int main() {

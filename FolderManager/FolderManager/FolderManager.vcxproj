@@ -119,6 +119,7 @@
     <ClInclude Include="FAT32_Format.h" />
     <ClInclude Include="FAT32_VolumeBootRecord.h" />
     <ClInclude Include="File.h" />
+    <ClInclude Include="FormatFactory.h" />
     <ClInclude Include="IBlock.h" />
     <ClInclude Include="LongFilename.h" />
     <ClInclude Include="NTFS_BIOSParameterBlock.h" />
@@ -142,6 +143,7 @@
     <ClCompile Include="FAT32_Format.cpp" />
     <ClCompile Include="FAT32_VolumeBootRecord.cpp" />
     <ClCompile Include="File.cpp" />
+    <ClCompile Include="FormatFactory.cpp" />
     <ClCompile Include="LongFilename.cpp" />
     <ClCompile Include="NTFS_ExtendedBIOSParameterBlock.cpp" />
     <ClCompile Include="main.cpp" />

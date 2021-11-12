@@ -2,9 +2,6 @@
 #include "SectorReader.h"
 #include <iostream>
 
-//API
-void FAT32_Format::run(LPCWSTR drive) { _run(drive); }
-
 void FAT32_Format::_removeMemory() {
 
 	if (_vbr) { 
@@ -23,7 +20,7 @@ void FAT32_Format::_removeMemory() {
 	}
 }
 
-void FAT32_Format::_run(LPCWSTR drive) {
+void FAT32_Format::_read(LPCWSTR drive) {
 
 	//read the first 512 bytes in drive
 	SectorReader reader(drive, 0);
@@ -44,7 +41,7 @@ FAT32_Format::FAT32_Format()
 
 FAT32_Format::FAT32_Format(LPCWSTR drive) 
 {
-	_run(drive);
+	_read(drive);
 }
 
 FAT32_Format::~FAT32_Format()

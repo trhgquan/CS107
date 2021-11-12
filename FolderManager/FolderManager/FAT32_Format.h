@@ -14,11 +14,8 @@ private:
 	RDET* _rdet = nullptr;
 
 protected:	//protected utilities
-	void _run(LPCWSTR) override;
+	void _read(LPCWSTR) override;
 	void _removeMemory();
-
-public:		//API
-	void run(LPCWSTR) override;
 
 public:
 	FAT32_Format();
