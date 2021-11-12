@@ -111,12 +111,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AbstractEntry.h" />
+    <ClInclude Include="AbstractFormat.h" />
     <ClInclude Include="BIOSParameterBlock.h" />
     <ClInclude Include="Entry.h" />
     <ClInclude Include="FAT.h" />
     <ClInclude Include="FAT32_BIOSParameterBlock.h" />
+    <ClInclude Include="FAT32_Format.h" />
     <ClInclude Include="FAT32_VolumeBootRecord.h" />
     <ClInclude Include="File.h" />
+    <ClInclude Include="FormatFactory.h" />
     <ClInclude Include="IBlock.h" />
     <ClInclude Include="LongFilename.h" />
     <ClInclude Include="NTFS_BIOSParameterBlock.h" />
@@ -124,24 +127,31 @@
     <ClInclude Include="MasterBootRecord.h" />
     <ClInclude Include="NTFS_VolumeBootRecord.h" />
     <ClInclude Include="PartitionTable.h" />
+    <ClInclude Include="RDET.h" />
+    <ClInclude Include="SDET.h" />
     <ClInclude Include="SectorReader.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="VolumeBootRecord.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AbstractEntry.cpp" />
+    <ClCompile Include="AbstractFormat.cpp" />
     <ClCompile Include="BIOSParameterBlock.cpp" />
     <ClCompile Include="Entry.cpp" />
     <ClCompile Include="FAT.cpp" />
     <ClCompile Include="FAT32_BIOSParameterBlock.cpp" />
+    <ClCompile Include="FAT32_Format.cpp" />
     <ClCompile Include="FAT32_VolumeBootRecord.cpp" />
     <ClCompile Include="File.cpp" />
+    <ClCompile Include="FormatFactory.cpp" />
     <ClCompile Include="LongFilename.cpp" />
     <ClCompile Include="NTFS_ExtendedBIOSParameterBlock.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MasterBootRecord.cpp" />
     <ClCompile Include="NTFS_VolumeBootRecord.cpp" />
     <ClCompile Include="PartitionTable.cpp" />
+    <ClCompile Include="RDET.cpp" />
+    <ClCompile Include="SDET.cpp" />
     <ClCompile Include="SectorReader.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="VolumeBootRecord.cpp" />

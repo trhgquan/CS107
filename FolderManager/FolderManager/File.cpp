@@ -13,21 +13,16 @@ std::string File::toString(int level) { return _toString(level); }
 
 std::string File::_toString(int level) {
 	std::stringstream builder;
-	const std::string space(' ', level);	//make a space with level ' ' characters 
+	const std::string space(level, '\t');	//make a space with level ' ' characters 
 
 	builder << space << "- Name: " << _name << "\n";
-	builder << space << "\t+ Status: " << _status << "\n";
-	builder << space << "\t+ Sectors: " << _sectors.first;
-	int afterFirst = _sectors.first + 1;
-	int last = _sectors.second;
-	for (int i = afterFirst; i <= last; ++i) {
-		builder << ", " << i;
-	}
-
+	builder << space << " + Status: " << _status << "\n";
+	builder << space << " + Sectors: " << _sectors.first << ", ... , " << _sectors.second;
+	
 	//Only print _size and _content when file is not a folder
 	if ("Folder" != _status)
 	{
-		builder << "\n" << space << "\t+ Size: " << _size;
+		builder << "\n" << space << " + Size: " << _size;
 
 	}
 
@@ -36,7 +31,8 @@ std::string File::_toString(int level) {
 	std::string extension = _name.substr(nameLength - 3, 3);	//3 = "txt".length()
 	if ("txt" == extension || "TXT" == extension)
 	{
-		builder << "\n" << space << "\t+ .txt content:\n" << _content;
+		builder << "\n" << space << " + .txt content:\n";
+		builder << space << "   " << _content;
 	}
 
 	return builder.str();

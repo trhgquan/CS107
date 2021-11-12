@@ -6,6 +6,7 @@
 BYTE* FAT::data() { return _data; }
 int FAT::FAT_size() { return _FAT_size; }
 LPCWSTR FAT::drive() { return _drive; };
+FAT32_VolumeBootRecord FAT::bootSector() { return _bootSector; };
 void FAT::setBootSector(const FAT32_VolumeBootRecord& bootSector) { _bootSector = bootSector; };
 void FAT::setDrive(const LPCWSTR& drive) { _drive = drive; };
 

@@ -21,7 +21,7 @@ private:	//private utilities
 
 	//Param: int: start cluster index to trace in the FAT
 	//output:	int: .first = start SECTOR index
-	//			int: .second = end CLUSTER index
+	//			int: .second = end SECTOR index
 	std::pair<int, int> _trace(int);
 
 	//After using setter to set attributes, use this to re-initialize data in class
@@ -31,6 +31,7 @@ public:		//Getter and Setter
 	BYTE* data();
 	int FAT_size();
 	LPCWSTR drive();
+	FAT32_VolumeBootRecord bootSector();
 	void setBootSector(const FAT32_VolumeBootRecord&);
 	void setDrive(const LPCWSTR&);
 
