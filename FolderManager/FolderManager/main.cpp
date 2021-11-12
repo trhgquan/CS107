@@ -5,7 +5,7 @@
 #include "MasterBootRecord.h"
 #include "Utility.h"
 #include "FormatFactory.h"
-
+#include "FAT.h"
 #include <iostream>
 
 
@@ -55,29 +55,6 @@ void testNTFS() {
 	} catch (const std::exception& e) {
 		std::cout << e.what() << '\n';
 	}
-}
-
-void testFAT32() {
-
-	//Tutorial to use FAT32_VolumeBootRecord to read data 
-	//	from Volume Boot Record in G:\ drive (which is Nhat Dang's USB) which run on FAT32 format
-
-	SectorReader reader3(L"\\\\.\\G:", 0);
-	FAT32_VolumeBootRecord FAT32_VBR(reader3.sector());
-
-	//Print the data  from FAT32 Boot Sector
-	std::cout << FAT32_VBR.toString() << "\n";
-	FAT fat(FAT32_VBR, reader3.drive());
-
-	std::pair<int, int> FSINFO = fat.trace(1);
-	std::pair<int, int> RDET = fat.trace(2);
-
-	unsigned int test = NTFS_VBR2.EBPB().MFTClusterNumber() * NTFS_VBR2.BPB()->sectorPerCluster();
-	SectorReader reader3(reader2.drive(), test, 1024);
-	for (int i = 0; i < 1024; ++i) {
-		std::cout << reader3.sector()[i];
-	}
-	std::cout << std::endl;
 }
 
 void testFAT32() {
