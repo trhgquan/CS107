@@ -75,6 +75,7 @@
     </Filter>
     <Filter Include="Source Files\NTFS\MasterFileTable">
       <UniqueIdentifier>{0ac74b09-470f-42b0-9fcb-fefb20f1d3c3}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Format\NTFS">
       <UniqueIdentifier>{3100eea5-4e1f-43b0-9724-be977cb4af9c}</UniqueIdentifier>
     </Filter>
