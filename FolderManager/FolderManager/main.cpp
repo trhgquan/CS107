@@ -4,10 +4,10 @@
 #include "FAT32_VolumeBootRecord.h"
 #include "MasterBootRecord.h"
 #include "Utility.h"
-#include "FAT.h"
-#include "Entry.h"
+#include "FormatFactory.h"
 
 #include <iostream>
+
 
 void testMBR() {
 	/*This is how to read Master Boot Record (MBR), but this project doesn't need to read MBR :'(((( */
@@ -72,37 +72,17 @@ void testFAT32() {
 	std::pair<int, int> FSINFO = fat.trace(1);
 	std::pair<int, int> RDET = fat.trace(2);
 
-	//Print first 100 bytes in FAT
-	for (int i = 0; i < 100; ++i)
-	{
-		std::cout << (unsigned int)fat.data()[i] << " ";
+	unsigned int test = NTFS_VBR2.EBPB().MFTClusterNumber() * NTFS_VBR2.BPB()->sectorPerCluster();
+	SectorReader reader3(reader2.drive(), test, 1024);
+	for (int i = 0; i < 1024; ++i) {
+		std::cout << reader3.sector()[i];
 	}
 	std::cout << std::endl;
+}
 
-
-	//Print raw data from RDET
-	int length = (RDET.second - RDET.first + 1) *FAT32_VBR.BPB()->bytesPerSector();
-	SectorReader reader4(reader3.drive(), RDET.first, length);
-	int h = length / AbstractEntry::bytesPerEntry();
-	std::vector<LongFilename> dummy;
-	for (int i = 0; i < h; ++i)
-	{
-		BYTE* buffer = reader4.sector() + (AbstractEntry::bytesPerEntry() * i);
-		if (0xE5 != buffer[0])
-		{
-			while (0x0F == buffer[0xB]) {
-				LongFilename lfn(buffer);
-				dummy.push_back(lfn);
-				++i;
-				buffer = reader4.sector() + (AbstractEntry::bytesPerEntry() * i);
-			}
-
-			Entry entry(buffer, dummy);
-			dummy.clear();
-		}
-	}
-	std::cout << std::endl;
-
+void testFAT32() {
+	FormatFactory factory;
+	factory.run(L"\\\\.\\G:");
 }
 
 int main() {
