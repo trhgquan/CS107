@@ -7,11 +7,10 @@
 class NTFS_MasterFileTableBlock : public IBlock {
 private:
   const unsigned int FILE_FLAG = 0x01;
-  const unsigned int FODLER_FLAG = 0x02;
+  const unsigned int FOLDER_FLAG = 0x02;
 
   std::string _fileName;
   unsigned int _fileSize;
-  unsigned int _fileSizeAllocated;
   unsigned int _flags;
 
 private:
