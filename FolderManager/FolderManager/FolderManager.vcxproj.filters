@@ -142,7 +142,16 @@
       <Filter>Header Files\Format\FAT32</Filter>
     </ClInclude>
     <ClInclude Include="FormatFactory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Format</Filter>
+    </ClInclude>
+    <ClInclude Include="NTFS_MFTBlock.h">
+      <Filter>Header Files\Format\NTFS</Filter>
+    </ClInclude>
+    <ClInclude Include="NTFS_MasterFileTable.h">
+      <Filter>Header Files\Format\NTFS</Filter>
+    </ClInclude>
+    <ClInclude Include="NTFS_Format.h">
+      <Filter>Header Files\Format\NTFS</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -207,7 +216,16 @@
       <Filter>Source Files\Format\FAT32</Filter>
     </ClCompile>
     <ClCompile Include="FormatFactory.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Format</Filter>
+    </ClCompile>
+    <ClCompile Include="NTFS_MasterFileTable.cpp">
+      <Filter>Source Files\Format\NTFS</Filter>
+    </ClCompile>
+    <ClCompile Include="NTFS_MFTBlock.cpp">
+      <Filter>Source Files\Format\NTFS</Filter>
+    </ClCompile>
+    <ClCompile Include="NTFS_Format.cpp">
+      <Filter>Source Files\Format\NTFS</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

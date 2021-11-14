@@ -24,8 +24,4 @@ public:
 	static std::string getStringFromSector(BYTE* sector, int offset, int length);
 };
 
-
 #endif // !_UTILITY_H_
-
-
-

@@ -30,7 +30,10 @@ void FAT32_Format::_read(LPCWSTR drive) {
 	_rdet = new RDET(_fat, _fat -> bootSector().BPB()->RDET_clusterNumber());
 
 	//print data
+	std::cout << "*************FAT32 FORMAT*************\n";
+	std::cout << "*******BOOT SECTOR INFORMATION*******\n\n";
 	std::cout << _vbr->toString() << "\n\n";	//Print boot sector information
+	std::cout << "*************DIRECTORIES*************\n\n";
 	std::cout << _rdet->toString() << "\n";	//Print index tree
 }
 

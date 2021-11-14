@@ -1,9 +1,11 @@
 #include "SectorReader.h"
 #include "NTFS_VolumeBootRecord.h"
+#include "NTFS_MasterFileTable.h"
+#include "FAT32_VolumeBootRecord.h"
 #include "MasterBootRecord.h"
 #include "Utility.h"
 #include "FormatFactory.h"
-
+#include "FAT.h"
 #include <iostream>
 
 
@@ -29,21 +31,37 @@ void testMBR() {
 
 void testNTFS() {
 
+	//Now can print the boot sector of NTFS Format like this
+	FormatFactory factory;
+	factory.run(L"\\\\.\\D:");
+
+	/*
 	//Tutorial to use NTFS_VolumeBootRecord to read data
 	//	from Volume Boot Record in C:\ drive which run on NTFS format
-	// Second param = 0 because the boot sector in C:\ drive is in sector 0th
-	SectorReader reader2(L"\\\\.\\C:", 0);
+	SectorReader reader2(L"\\\\.\\D:", 0);
+
 	NTFS_VolumeBootRecord NTFS_VBR2(reader2.sector());
 
 	//Print the data
-	std::cout << NTFS_VBR2.toString() << "\n";	//This is the same result with line 26
+	std::cout << NTFS_VBR2.toString() << "\n";
 
-	unsigned int test = NTFS_VBR2.EBPB().MFTClusterNumber() * NTFS_VBR2.BPB()->sectorPerCluster();
-	SectorReader reader3(reader2.drive(), test, 1024);
-	for (int i = 0; i < 1024; ++i) {
-		std::cout << reader3.sector()[i];
+	// Listing out all files inside disk
+	NTFS_MasterFileTable MFT(NTFS_VBR2);
+
+	int i = 0;
+	try {
+		SectorReader MFT_reader(reader2.drive(), MFT.startingSector() + (4 * i), 1024);
+
+		MFT.readSector(MFT_reader.sector());
+
+		for (auto block : MFT.MFTB()) {
+			std::cout << block.toString() << '\n';
+		}
 	}
-	std::cout << std::endl;
+	catch (const std::exception& e) {
+		std::cout << e.what() << '\n';
+	}
+	*/
 }
 
 void testFAT32() {
@@ -51,13 +69,32 @@ void testFAT32() {
 	factory.run(L"\\\\.\\G:");
 }
 
+void driverCode() {
+
+	wchar_t drive = 0;
+	std::cout << "**Instruction: If you want to look for C:\\ drive, please input: C\n";
+	std::cout << "- Please input the drive name: ";
+	std::wcin >> drive;
+	if (!((L'A' <= drive && drive <= L'Z') || (L'a' <= drive && drive <= L'z'))) {
+		std::cout << "**Invalid input! The input must contain a letter of the drive name\n";
+		std::cout << "- Please input again: ";
+		std::wcin >> drive;
+	}
+	std::cout << "\n\n";
+	FormatFactory factory;
+	wchar_t a[] = L"\\\\.\\X:";
+	a[4] = drive;
+	factory.run(a);
+
+}
+
 int main() {
 
 	//testMBR();
 	//testNTFS();
-	testFAT32();
+	//testFAT32();
+	driverCode();
 	
-
 	system("PAUSE");
 	return 0;
 }
