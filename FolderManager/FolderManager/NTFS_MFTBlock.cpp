@@ -61,7 +61,6 @@ std::string NTFS_MasterFileTableBlock::toString() {
 
   if (_flags == NTFS_MasterFileTableBlock::FILE_FLAG) {
     ss << "Type: file" << '\n';
-    ss << "File size: " << _fileSize;
   } else {
     ss << "Type: folder" << '\n';
   }
