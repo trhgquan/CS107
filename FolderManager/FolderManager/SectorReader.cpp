@@ -27,7 +27,7 @@ int SectorReader::_readSector(LPCWSTR drive, unsigned int sectorIndex) {
 		NULL);										// Handle to template
 
 	if (INVALID_HANDLE_VALUE == device) { // Open Error
-		printf("CreateFile: %u\n", GetLastError());
+		//printf("CreateFile: %u\n", GetLastError());
 		CloseHandle(device);
 		return 1;
 	}
@@ -35,7 +35,7 @@ int SectorReader::_readSector(LPCWSTR drive, unsigned int sectorIndex) {
 	SetFilePointer(device, lowWord, &highWord, FILE_BEGIN);	//Set a Point to Read
 
 	if (!ReadFile(device, _sector, _numberBytesRead, &bytesRead, NULL)) {
-		printf("ReadFile: %u\n", GetLastError());
+		//printf("ReadFile: %u\n", GetLastError());
 		CloseHandle(device);
 		return 2;
 	}

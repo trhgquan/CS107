@@ -20,6 +20,8 @@ void NTFS_Format::_read(LPCWSTR drive) {
 	
 
 	//print data
+	std::cout << "*************NTFS FORMAT*************\n";
+	std::cout << "*******BOOT SECTOR INFORMATION*******\n\n";
 	std::cout << _vbr->toString() << "\n\n";	//Print boot sector information
 }
 

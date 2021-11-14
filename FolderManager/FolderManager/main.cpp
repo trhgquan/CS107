@@ -69,11 +69,31 @@ void testFAT32() {
 	factory.run(L"\\\\.\\G:");
 }
 
+void driverCode() {
+
+	wchar_t drive = 0;
+	std::cout << "**Instruction: If you want to look for C:\\ drive, please input: C\n";
+	std::cout << "- Please input the drive name: ";
+	std::wcin >> drive;
+	if (!((L'A' <= drive && drive <= L'Z') || (L'a' <= drive && drive <= L'z'))) {
+		std::cout << "**Invalid input! The input must contain a letter of the drive name\n";
+		std::cout << "- Please input again: ";
+		std::wcin >> drive;
+	}
+	std::cout << "\n\n";
+	FormatFactory factory;
+	wchar_t a[] = L"\\\\.\\X:";
+	a[4] = drive;
+	factory.run(a);
+
+}
+
 int main() {
 
 	//testMBR();
-	testNTFS();
+	//testNTFS();
 	//testFAT32();
+	driverCode();
 	
 	system("PAUSE");
 	return 0;
