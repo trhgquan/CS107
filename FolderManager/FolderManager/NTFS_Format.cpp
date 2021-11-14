@@ -30,7 +30,7 @@ void NTFS_Format::_read(LPCWSTR drive) {
 	NTFS_MasterFileTable MFT(*_vbr);
 	int startingSectorIndex = 0;
 
-	SectorReader reader1(reader.drive(), MFT.startingSector() + (1024 * startingSectorIndex), 1024);
+	SectorReader reader1(reader.drive(), MFT.startingSector() + startingSectorIndex, 1024);
 
 	MFT.readSector(reader1.sector());
 
