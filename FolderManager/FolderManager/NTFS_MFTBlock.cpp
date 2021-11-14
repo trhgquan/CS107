@@ -3,6 +3,7 @@
 #include "SectorReader.h"
 #include "Utility.h"
 #include <iostream>
+#include <sstream>
 
 #define uint unsigned int 
 
@@ -15,20 +16,23 @@ void NTFS_MasterFileTableBlock::_readSector(BYTE* sector) {
 
   uint entryStart = Utility::valueInLittleEndian(sector, 0x14, 2);
 
-  _fileSizeAllocated = Utility::valueInLittleEndian(sector, 0x1C, 4);
+ // _fileSizeAllocated = Utility::valueInLittleEndian(sector, 0x1C, 4);
   _flags = Utility::valueInLittleEndian(sector, 0x16, 2);
   
   // Get createdAt, updateDataAt, updateDescriptionAt, accessAt
-
   uint standardInformationSize = Utility::valueInLittleEndian(sector, entryStart + 4, 4);
 
   // Get fileName
-  
   uint fileNameStarting = Utility::valueInLittleEndian(sector, entryStart + standardInformationSize + 20, 2);
-  
   uint fileNameLength = Utility::valueInLittleEndian(sector, entryStart + standardInformationSize + fileNameStarting + 64, 1);
 
-  _fileName = Utility::getStringFromSector(sector, entryStart + standardInformationSize + fileNameStarting + 66, fileNameLength * 2);
+  std::stringstream builder;
+  for (unsigned int i = 0; i < 2 * fileNameLength; i += 2) {
+	  int offset = entryStart + standardInformationSize + fileNameStarting + 66;
+	  builder << Utility::getStringFromSector(sector, offset + i, 1);
+  }
+  _fileName = builder.str();
+
 
   // Get file data
   uint dataOffset = entryStart + standardInformationSize + fileNameStarting + 66 + fileNameLength * 2;

@@ -31,6 +31,11 @@ void testMBR() {
 
 void testNTFS() {
 
+	//Now can print the boot sector of NTFS Format like this
+	FormatFactory factory;
+	factory.run(L"\\\\.\\D:");
+
+	/*
 	//Tutorial to use NTFS_VolumeBootRecord to read data
 	//	from Volume Boot Record in C:\ drive which run on NTFS format
 	SectorReader reader2(L"\\\\.\\D:", 0);
@@ -38,23 +43,25 @@ void testNTFS() {
 	NTFS_VolumeBootRecord NTFS_VBR2(reader2.sector());
 
 	//Print the data
-	std::cout << NTFS_VBR2.toString() << "\n";	//This is the same result with line 26
+	std::cout << NTFS_VBR2.toString() << "\n";
 
 	// Listing out all files inside disk
 	NTFS_MasterFileTable MFT(NTFS_VBR2);
 
-	int i = 26;
+	int i = 0;
 	try {
-		SectorReader MFT_reader(reader2.drive(), MFT.startingSector() + (1024 * i), 1024);	
+		SectorReader MFT_reader(reader2.drive(), MFT.startingSector() + (4 * i), 1024);
 
 		MFT.readSector(MFT_reader.sector());
 
 		for (auto block : MFT.MFTB()) {
 			std::cout << block.toString() << '\n';
 		}
-	} catch (const std::exception& e) {
+	}
+	catch (const std::exception& e) {
 		std::cout << e.what() << '\n';
 	}
+	*/
 }
 
 void testFAT32() {
@@ -66,9 +73,8 @@ int main() {
 
 	//testMBR();
 	testNTFS();
-	// testFAT32();
+	//testFAT32();
 	
-
 	system("PAUSE");
 	return 0;
 }

@@ -1,5 +1,6 @@
 #include "FormatFactory.h"
 #include "FAT32_Format.h"
+#include "NTFS_Format.h"
 #include "SectorReader.h"
 
 //API
@@ -27,6 +28,7 @@ void FormatFactory::_run(LPCWSTR drive) {
 FormatFactory::FormatFactory()
 {
 	_prototypes.push_back(new FAT32_Format());
+	_prototypes.push_back(new NTFS_Format());
 }
 
 
