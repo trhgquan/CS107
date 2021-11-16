@@ -28,7 +28,8 @@ void FormatFactory::_run(LPCWSTR drive) {
 		}
 	}
 	catch (const std::exception e) {
-		std::cout << "Doesn't exist this drive !\n";
+		//std::cout << "Doesn't exist this drive !\n";
+		std::cout << e.what() << "\n";
 	}
 }
 

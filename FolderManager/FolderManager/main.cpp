@@ -72,14 +72,23 @@ void testFAT32() {
 void driverCode() {
 
 	wchar_t drive = 0;
+	std::cout << "***This project automatically regconize format of FAT32/NTFS, just input the drive name and everything is OK\n";
 	std::cout << "**Instruction: If you want to look for C:\\ drive, please input: C\n";
+	std::cout << "**Instruction: If you want to look for Master Boot Record, please input: 0\n";
 	std::cout << "- Please input the drive name: ";
 	std::wcin >> drive;
-	if (!((L'A' <= drive && drive <= L'Z') || (L'a' <= drive && drive <= L'z'))) {
-		std::cout << "**Invalid input! The input must contain a letter of the drive name\n";
+	if (!((L'A' <= drive && drive <= L'Z') || (L'a' <= drive && drive <= L'z') || (L'0' == drive))) {
+		std::cout << "**Invalid input! The input must contain a letter of the drive name or '0' for Master Boot Record\n";
 		std::cout << "- Please input again: ";
 		std::wcin >> drive;
 	}
+
+	if (L'0' == drive) {
+		MasterBootRecord MBR;
+		std::cout << MBR.toString() << "\n\n";
+		return;
+	}
+
 	std::cout << "\n\n";
 	FormatFactory factory;
 	wchar_t a[] = L"\\\\.\\X:";
