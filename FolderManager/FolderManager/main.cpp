@@ -14,6 +14,7 @@ void testMBR() {
 	//Create Master Boot Record, because the sector to read MBR is always fixed,
 	//	so we do not need to read those sector by hand, it's already read in constructor
 	MasterBootRecord MBR;
+	std::cout << "*************MASTER BOOT RECORD*************\n";
 	std::cout << MBR.toString() << "\n\n";
 
 	//Get the boot sector from the first partition table in MBR
@@ -25,6 +26,7 @@ void testMBR() {
 	NTFS_VolumeBootRecord NTFS_VBR(reader.sector());
 
 	//Print data
+	std::cout << "*******READ C:\\ DRIVE BY USING ONLY MASTER BOOT RECORD (ONLY SUPPORT FOR NTFS FORMAT) *******\n\n";
 	std::cout << NTFS_VBR.toString() << "\n";
 	
 }
@@ -35,33 +37,6 @@ void testNTFS() {
 	FormatFactory factory;
 	factory.run(L"\\\\.\\D:");
 
-	/*
-	//Tutorial to use NTFS_VolumeBootRecord to read data
-	//	from Volume Boot Record in C:\ drive which run on NTFS format
-	SectorReader reader2(L"\\\\.\\D:", 0);
-
-	NTFS_VolumeBootRecord NTFS_VBR2(reader2.sector());
-
-	//Print the data
-	std::cout << NTFS_VBR2.toString() << "\n";
-
-	// Listing out all files inside disk
-	NTFS_MasterFileTable MFT(NTFS_VBR2);
-
-	int i = 0;
-	try {
-		SectorReader MFT_reader(reader2.drive(), MFT.startingSector() + (4 * i), 1024);
-
-		MFT.readSector(MFT_reader.sector());
-
-		for (auto block : MFT.MFTB()) {
-			std::cout << block.toString() << '\n';
-		}
-	}
-	catch (const std::exception& e) {
-		std::cout << e.what() << '\n';
-	}
-	*/
 }
 
 void testFAT32() {
@@ -84,8 +59,7 @@ void driverCode() {
 	}
 
 	if (L'0' == drive) {
-		MasterBootRecord MBR;
-		std::cout << MBR.toString() << "\n\n";
+		testMBR();
 		return;
 	}
 
