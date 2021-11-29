@@ -118,6 +118,15 @@ class Machine {
     void WriteRegister(int num, int value);
 				// store a value into a CPU register
 
+	int System2User(int virtAddr, int len, char* buffer);
+			//Copy buffer from System memory space to User memory space
+
+	char* User2System(int virtAddr, int limit);
+			//Copy buffer from User memory space to system memory space
+
+	void IncreasePC();
+			//Set the current PC register + 4 as the next PC register
+		
 
 // Routines internal to the machine simulation -- DO NOT call these 
 
