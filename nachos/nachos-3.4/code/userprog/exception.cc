@@ -28,6 +28,7 @@
 #define MAX_BUFFER_LENGTH 255
 #define R2 2
 #define R4 4
+#define R5 5
 
 /*System call handler for each system call protoypes*/
 using namespace SCHandler {
@@ -256,10 +257,36 @@ using namespace SCHandler {
 	}
 
 	void ReadString(char* buffer, int length) {
+		synchConsole->Read(buffer, length);
+		machine->SystemToUser(
+			machine->ReadRegister(R4),
+			length,
+			buffer);
+		machine->IncreasePC();
+		delete[] buffer;
+	}
 
+	void PrintString(char* buffer) {
+		int length = 0;
 
+		while (length < MAX_BUFFER_LENGTH && NULL != buffer[length])
+		{
+			++length;
+		}
+
+		if (MAX_BUFFER_LENGTH == length)
+		{
+			//get max length
+			DEBUG('a', "Error: Number of characters in string must not over 254 character");
+		}
+		else
+		{
+			//+1 for null-terminated
+			synchConsole->Write(buffer, length + 1);
+		}	
 
 		machine->IncreasePC();
+		delete buffer;
 	}
 }
 
@@ -319,7 +346,19 @@ ExceptionHandler(ExceptionType which)
 			machine->ReadRegister(R4));
 		break;
 	case SC_ReadString:
+		SCHandler::ReadString(
+			machine->User2System(
+				machine->ReadRegister(R4),
+				machine->ReadRegister(R5)),
+			machine->ReadRegister(R5));
 
+		break;
+	case SC_PrintString:
+		SCHandler::PrintString(
+			machine->User2System(
+				machine->ReadRegister(R4),
+				MAX_BUFFER_LENGTH));
+		
 		break;
 	default:
 	    printf("Unexpected user mode exception %d %d\n", which, type);
