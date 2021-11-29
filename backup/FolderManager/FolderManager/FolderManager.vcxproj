@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{0C778E3A-8814-474F-8CED-929B99ACFC30}</ProjectGuid>
+    <RootNamespace>FolderManager</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="AbstractEntry.h" />
+    <ClInclude Include="AbstractFormat.h" />
+    <ClInclude Include="BIOSParameterBlock.h" />
+    <ClInclude Include="Entry.h" />
+    <ClInclude Include="FAT.h" />
+    <ClInclude Include="FAT32_BIOSParameterBlock.h" />
+    <ClInclude Include="FAT32_Format.h" />
+    <ClInclude Include="FAT32_VolumeBootRecord.h" />
+    <ClInclude Include="File.h" />
+    <ClInclude Include="FormatFactory.h" />
+    <ClInclude Include="IBlock.h" />
+    <ClInclude Include="LongFilename.h" />
+    <ClInclude Include="NTFS_BIOSParameterBlock.h" />
+    <ClInclude Include="NTFS_ExtendedBIOSParameterBlock.h" />
+    <ClInclude Include="MasterBootRecord.h" />
+    <ClInclude Include="NTFS_Format.h" />
+    <ClInclude Include="NTFS_MasterFileTable.h" />
+    <ClInclude Include="NTFS_MFTBlock.h" />
+    <ClInclude Include="NTFS_VolumeBootRecord.h" />
+    <ClInclude Include="PartitionTable.h" />
+    <ClInclude Include="RDET.h" />
+    <ClInclude Include="SDET.h" />
+    <ClInclude Include="SectorReader.h" />
+    <ClInclude Include="Utility.h" />
+    <ClInclude Include="VolumeBootRecord.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AbstractEntry.cpp" />
+    <ClCompile Include="AbstractFormat.cpp" />
+    <ClCompile Include="BIOSParameterBlock.cpp" />
+    <ClCompile Include="Entry.cpp" />
+    <ClCompile Include="FAT.cpp" />
+    <ClCompile Include="FAT32_BIOSParameterBlock.cpp" />
+    <ClCompile Include="FAT32_Format.cpp" />
+    <ClCompile Include="FAT32_VolumeBootRecord.cpp" />
+    <ClCompile Include="File.cpp" />
+    <ClCompile Include="FormatFactory.cpp" />
+    <ClCompile Include="LongFilename.cpp" />
+    <ClCompile Include="NTFS_ExtendedBIOSParameterBlock.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MasterBootRecord.cpp" />
+    <ClCompile Include="NTFS_Format.cpp" />
+    <ClCompile Include="NTFS_MasterFileTable.cpp" />
+    <ClCompile Include="NTFS_MFTBlock.cpp" />
+    <ClCompile Include="NTFS_VolumeBootRecord.cpp" />
+    <ClCompile Include="PartitionTable.cpp" />
+    <ClCompile Include="RDET.cpp" />
+    <ClCompile Include="SDET.cpp" />
+    <ClCompile Include="SectorReader.cpp" />
+    <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="VolumeBootRecord.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
