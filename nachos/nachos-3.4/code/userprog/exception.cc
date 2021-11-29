@@ -31,7 +31,7 @@
 #define R5 5
 
 /*System call handler for each system call protoypes*/
-using namespace SCHandler {
+namespace SCHandler {
 
 	/*
 		Input:	- An array of character to check if it show up as a number (char *) (input)
@@ -258,7 +258,7 @@ using namespace SCHandler {
 
 	void ReadString(char* buffer, int length) {
 		synchConsole->Read(buffer, length);
-		machine->SystemToUser(
+		machine->System2User(
 			machine->ReadRegister(R4),
 			length,
 			buffer);
@@ -282,6 +282,7 @@ using namespace SCHandler {
 		else
 		{
 			//+1 for null-terminated
+			buffer[length] = NULL;
 			synchConsole->Write(buffer, length + 1);
 		}	
 
