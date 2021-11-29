@@ -30,7 +30,7 @@
 #define R4 4
 #define R5 5
 
-
+/*
 /*System call handler for each system call protoypes*/
 namespace SCHandler {
 
@@ -290,7 +290,7 @@ namespace SCHandler {
 		delete buffer;
 	}
 }
-
+*/
 //----------------------------------------------------------------------
 // ExceptionHandler
 // 	Entry point into the Nachos kernel.  Called when a user program
@@ -332,7 +332,7 @@ ExceptionHandler(ExceptionType which)
 	    DEBUG('a', "Shutdown, initiated by user program.\n");
 	    interrupt->Halt();
 	    break;	
-		
+		/*
 	case SC_ReadInt:
 		SCHandler::ReadInt();
 		break;
@@ -361,7 +361,7 @@ ExceptionHandler(ExceptionType which)
 				machine->ReadRegister(R4),
 				MAX_BUFFER_LENGTH));
 		
-		break;
+		break;*/
 	default:
 	    printf("Unexpected user mode exception %d %d\n", which, type);
 	    ASSERT(FALSE);
