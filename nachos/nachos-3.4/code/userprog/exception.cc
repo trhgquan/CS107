@@ -83,7 +83,8 @@ namespace SCHandler {
 
 			}
 			else if ('.' == buffer[i]) {
-				if (isReal || isNegative)
+
+				if (isReal || isNegative) 
 				{
 					return 0;
 				}
@@ -101,8 +102,9 @@ namespace SCHandler {
 
 			}
 			else if (' ' == buffer[i]) {
+				
+				//if all characters from buffer[0 : i] is not ' ' => 0
 
-				//if all characters from buffer[0 : offset] is not ' ' => 0
 				while (i > 0) {
 					--i;
 					if (' ' != buffer[i])
@@ -136,8 +138,10 @@ namespace SCHandler {
 	*/
 
 	char* NumberToString(int number, int& length) {
-		if (0 == number) return "0";
-
+		if (0 == number) {
+			length = 1;
+			return "0";
+		}
 		//check if number is negative
 		bool isNegative = (number < 0 ? true : false);
 
@@ -145,16 +149,16 @@ namespace SCHandler {
 		if (isNegative) number *= -1;
 
 		//number of digits of number
-		length = 1;	
+		length = 0;	
 
 		//copy of number
 		int temp_number = number;
 
 		//get number of digits
-		while (temp_number > 0) {
+		do {
 			temp_number /= 10;
 			++length;
-		}
+		}while (temp_number > 0);
 
 		//length += 1 if negative (space for '-')
 		length += (isNegative ? 1 : 0);
@@ -178,12 +182,12 @@ namespace SCHandler {
 		int i = length - 1;	
 
 		//Get absolute value
-		while (temp_number > 0) {
+		do {
 			int digit = temp_number % 10;
 			temp_number /= 10;
-			buffer[i] = digit;
+			buffer[i] = (digit + '0');
 			--i;
-		}
+		}while (i >= 0 && temp_number > 0);
 
 		//add null-terminated
 		buffer[length] = NULL;
@@ -210,7 +214,12 @@ namespace SCHandler {
 		//if (NULL == buffer) => cannot allocate to buffer
 		if (buffer) {
 			synchConsole->Write(buffer, length);
-			delete[] buffer;
+			
+			//We don't need to delete while number = 0, because we havent't new it yet
+			if (0 != number)
+			{
+				delete[] buffer;
+			}
 		}
 		else 
 		{
@@ -285,7 +294,6 @@ namespace SCHandler {
 		else
 		{
 			//+1 for null-terminated
-			buffer[length] = NULL;
 			synchConsole->Write(buffer, length + 1);
 		}	
 
@@ -335,7 +343,6 @@ ExceptionHandler(ExceptionType which)
 	    DEBUG('a', "Shutdown, initiated by user program.\n");
 	    interrupt->Halt();
 	    break;	
-		
 	case SC_ReadInt:
 		SCHandler::ReadInt();
 		break;
