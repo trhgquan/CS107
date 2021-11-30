@@ -332,7 +332,6 @@ ExceptionHandler(ExceptionType which)
 	    DEBUG('a', "Shutdown, initiated by user program.\n");
 	    interrupt->Halt();
 	    break;	
-		
 	case SC_ReadInt:
 		SCHandler::ReadInt();
 		break;
