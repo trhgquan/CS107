@@ -41,12 +41,13 @@ namespace SCHandler {
 		Output:	Return the value of natural part if the array is an number
 				Return 0 if the array is not a number
 	*/
+
 	int StringToNumber(char* buffer, int numBytes) {
-		
+
 		bool isNegative = false;	//check if negative number
 		bool isReal = false;		//check if real number
 
-		//start offset = last charcter offset
+									//start offset = last charcter offset
 		int offset = numBytes - 1;
 
 		//ignore all " " at the ends
@@ -57,22 +58,22 @@ namespace SCHandler {
 
 		//meet the first '.' => '123.000' still a integer, '123.125' would return '123'
 		if ('.' == buffer[offset]) { isReal = true; --offset; }
-		
+
 		//if the buffer is liked ".   " => 0
 		if (-1 == offset) { return 0; }
 
 		//we would never meet '-' of negative number if we traversal from the end
-		if ('-' == buffer[offset]) { return 0; }	
+		if ('-' == buffer[offset]) { return 0; }
 
 		int i;
 		int coeff = 1;
 		int value = 0;
 		for (i = offset; i >= 0; --i) {
 
-			if ('-' == buffer[offset]) {
+			if ('-' == buffer[i]) {
 
 				//we will not accept 2 or more '-'
-				if (isNegative) 
+				if (isNegative)
 				{
 					return 0;
 				}
@@ -81,14 +82,14 @@ namespace SCHandler {
 
 
 			}
-			else if ('.' == buffer[offset]) {
-				if (isReal || isNegative) 
+			else if ('.' == buffer[i]) {
+				if (isReal || isNegative)
 				{
 					return 0;
 				}
-				
+
 				//buffer like: "  -.12321 " => not a number
-				if (offset > 0 && '-' == buffer[offset - 1])
+				if (i > 0 && '-' == buffer[i - 1])
 				{
 					return 0;
 				}
@@ -99,12 +100,12 @@ namespace SCHandler {
 				value = 0;
 
 			}
-			else if (' ' == buffer[offset]) {
-				
+			else if (' ' == buffer[i]) {
+
 				//if all characters from buffer[0 : offset] is not ' ' => 0
-				while (offset > 0) {
-					--offset;
-					if (' ' != buffer[offset])
+				while (i > 0) {
+					--i;
+					if (' ' != buffer[i])
 					{
 						return 0;
 					}
@@ -112,8 +113,8 @@ namespace SCHandler {
 				}
 
 			}
-			else if ('0' <= buffer[offset] && buffer[offset] <= '9') {
-				value += (coeff * (buffer[offset] - '0'));
+			else if ('0' <= buffer[i] && buffer[i] <= '9') {
+				value += (coeff * (buffer[i] - '0'));
 				coeff *= 10;
 			}
 			else {
@@ -125,6 +126,7 @@ namespace SCHandler {
 
 		return (isNegative ? -1 * value : value);
 	}
+	
 
 	/*
 	Input:	- A number to convert to char* (int) (input)
