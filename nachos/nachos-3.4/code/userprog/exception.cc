@@ -283,6 +283,7 @@ namespace SCHandler {
 		else
 		{
 			//+1 for null-terminated
+			buffer[length] = NULL;
 			synchConsole->Write(buffer, length + 1);
 		}	
 
