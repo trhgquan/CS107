@@ -16,7 +16,7 @@ int main() {
 	PrintString("- Ca 3 chuong trinh nay deu nam trong folder ./test/\n\n");
 
 	PrintString("- Gioi thieu chuong trinh ascci:\n");
-	PrintString("Chuong trinh ascii cho phep xuat ra gia tri Dec cua 1 ki tu va ki tu trong pham vi tu [32; 126], ");
+	PrintString("Chuong trinh ascii cho phep xuat ra gia tri Dec cua 1 ki tu va ki tu trong pham vi tu [32; 127], ");
 	PrintString("vi day la vung ma console co the xuat ra ki tu ascci co the nhin thay duoc\n\n");
 
 	PrintString("- Gioi thieu chuong trinh sort:\n");

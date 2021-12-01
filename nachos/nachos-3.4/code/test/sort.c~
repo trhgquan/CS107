@@ -56,12 +56,8 @@ int main() {
 		PrintString("- Moi thay nhap lai: ");
 		n = ReadInt();
 	}
-	while (n > MAX_SIZE) {
-		PrintString("\t+ Khong hop le: Kich thuoc mang khong vuot qua 100\n");
-		PrintString("- Moi thay nhap lai: ");
-		n = ReadInt();
-	}
-	
+
+
 
 	//Input array
 	for (i = 0; i < n; ++i) {
