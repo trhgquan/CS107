@@ -9,24 +9,88 @@
 
 #include "syscall.h"
 
-int A[1024];	/* size of physical memory; with code, we'll run out of space!*/
+#define TYPE_ASCENDING 1
+#define TYPE_DESCENDING 2
+#define MAX_SIZE 100
 
-int
-main()
-{
-    int i, j, tmp;
 
-    /* first initialize the array, in reverse sorted order */
-    for (i = 0; i < 1024; i++)		
-        A[i] = 1024 - i;
+int compare(int* a, int* b, int compareType) {
+	if (TYPE_ASCENDING == compareType) {
+		if (*a < *b)
+		{
+			return 1;
+		}
+		return 0;
+	}
+	
+	//Descending
+	if (*a < *b) 
+	{
+		return 0;
+	}
 
-    /* then sort! */
-    for (i = 0; i < 1023; i++)
-        for (j = i; j < (1023 - i); j++)
-	   if (A[j] > A[j + 1]) {	/* out of order -> need to swap ! */
-	      tmp = A[j];
-	      A[j] = A[j + 1];
-	      A[j + 1] = tmp;
-    	   }
-    Exit(A[0]);		/* and then we're done -- should be 0! */
+	return 1;
+}
+
+int main() {
+
+	//Input type of sort
+	int type, n, i, j, temp, a[MAX_SIZE + 1];
+	PrintString("- Moi thay nhap kieu sort ");
+	PrintString("(1: Tang dan | 2: Giam dan): ");
+	type = ReadInt();
+
+	while (type != TYPE_ASCENDING && type != TYPE_DESCENDING) {
+		PrintString("\t+ Khong hop le: Chi duoc chon gia tri 1 hoac 2\n");
+		PrintString("- Moi thay nhap lai kieu sort: ");
+		type = ReadInt();
+	}
+
+	//Input size of an array
+	PrintString("- Moi thay nhap so luong phan tu cua mang can sort: ");
+	n = ReadInt();
+
+	//Valid check for size of an array
+	while (n < 0) {
+		PrintString("\t+ Khong hop le: So luong phan tu phai la so duong!\n");
+		PrintString("- Moi thay nhap lai: ");
+		n = ReadInt();
+	}
+	while (n > MAX_SIZE) {
+		PrintString("\t+ Khong hop le: Kich thuoc mang khong vuot qua 100\n");
+		PrintString("- Moi thay nhap lai: ");
+		n = ReadInt();
+	}
+	
+
+	//Input array
+	for (i = 0; i < n; ++i) {
+		PrintString("a[");
+		PrintInt(i);
+		PrintString("] = ");
+		a[i] = ReadInt();
+	}
+
+	//Bubble sort
+	for (i = 0; i < n - 1; ++i) {
+		for (j = i + 1; j < n; ++j) {
+			if (!compare(a+i, a+j, type)){
+				temp = a[i];
+				a[i] = a[j];
+				a[j] = temp;
+			}
+		}
+
+	}
+
+
+	//output
+	PrintString("- Mang sau khi da sap xep bang bubble sort la:\n");
+	for (i = 0; i < n; ++i) {
+		PrintInt(a[i]);
+		PrintChar(' ');
+	}
+	PrintChar('\n');
+	
+	Halt();
 }

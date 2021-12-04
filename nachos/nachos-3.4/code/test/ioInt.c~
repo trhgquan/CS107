@@ -1,0 +1,12 @@
+#include "syscall.h"
+
+int main() {
+
+	PrintString("Moi thay nhap thu 1 so nguyen bat ki:");
+	PrintInt(ReadInt());
+	PrintChar('\n');
+	PrintString("So thay vua nhap la: ");
+	//PrintInt(n);
+	PrintChar('\n');
+	Halt();
+}
