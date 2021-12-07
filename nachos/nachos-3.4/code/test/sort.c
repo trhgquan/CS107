@@ -51,13 +51,9 @@ int main() {
 	n = ReadInt();
 
 	//Valid check for size of an array
-	while (n < 0) {
-		PrintString("\t+ Khong hop le: So luong phan tu phai la so duong!\n");
-		PrintString("- Moi thay nhap lai: ");
-		n = ReadInt();
-	}
-	while (n > MAX_SIZE) {
-		PrintString("\t+ Khong hop le: Kich thuoc mang khong vuot qua 100\n");
+	while (n < 0 || n > MAX_SIZE) {
+		if (n < 0) PrintString("\t+ Khong hop le: So luong phan tu phai la so duong!\n");
+		else PrintString("\t+ Khong hop le: Kich thuoc mang khong vuot qua 100\n");
 		PrintString("- Moi thay nhap lai: ");
 		n = ReadInt();
 	}
