@@ -325,7 +325,14 @@ namespace SCHandler {
 
 	int doSC_Join() {
 		int id = machine->ReadRegister(R4);
-		machine->WriteRegister(R2, pTab->JoinUpdate(id));
+		//machine->WriteRegister(R2, pTab->JoinUpdate(id));
+		if (id < 0) {
+			printf("SC_JOIN: Invalid process\n");
+			machine->IncreasePC();
+			return -1;
+		}
+
+		addrLock->P();
 		machine->IncreasePC();
 		return 0;
 	}
