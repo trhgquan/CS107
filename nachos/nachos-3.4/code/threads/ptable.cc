@@ -61,7 +61,8 @@ int PTable::ExecUpdate(char* filename)
 ////////////////////////////////////////////////////////////
 
 	pcb[ID]= new PCB(ID);
-	bm->Mark(ID);
+	pcb[ID]->parentID = currentThread->processID;
+	//bm->Mark(ID);
 	int pID= pcb[ID]->Exec(filename,ID);
 
 	bmsem->V();

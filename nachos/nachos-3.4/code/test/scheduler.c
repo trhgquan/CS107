@@ -6,4 +6,6 @@ int main() {
 	pingPID = Exec("./test/ping");
 	pongPID = Exec("./test/pong");
 
+	Join(pingPID);
+	Join(pongPID);
 }

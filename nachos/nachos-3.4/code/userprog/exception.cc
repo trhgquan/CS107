@@ -322,6 +322,13 @@ namespace SCHandler {
 		machine->IncreasePC();
 		return 0;
 	}
+
+	int doSC_Join() {
+		int id = machine->ReadRegister(R4);
+		machine->WriteRegister(R2, pTab->JoinUpdate(id));
+		machine->IncreasePC();
+		return 0;
+	}
 }
 
 //----------------------------------------------------------------------
@@ -420,10 +427,13 @@ ExceptionHandler(ExceptionType which)
 	case SC_Exec:
 		SCHandler::doSC_Exec();
 		break;
+	case SC_Join:
+		SCHandler::doSC_Join();
+		break;
 	default:
 	    printf("Unexpected user mode exception %d %d\n", which, type);
 	    //ASSERT(FALSE);
-		IncreasePC();
+		machine->IncreasePC();
 	}
 	break;
 
