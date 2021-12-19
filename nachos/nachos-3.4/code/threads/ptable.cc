@@ -153,7 +153,7 @@ void PTable::Remove(int pID)
 //----------------------------------------------------------------------------------------------
 int PTable::GetFreeSlot()
 {
-	return bm->FindFreeSlot();
+	return bm->Find();
 }
 
 bool PTable::IsExist(int pID)
