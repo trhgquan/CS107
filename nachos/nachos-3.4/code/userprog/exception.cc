@@ -29,7 +29,7 @@
 #define R2 2
 #define R4 4
 #define R5 5
-
+#define R6 6
 
 /*System call handler for each system call protoypes*/
 namespace SCHandler {
@@ -300,6 +300,309 @@ namespace SCHandler {
 		machine->IncreasePC();
 		delete buffer;
 	}
+
+
+	/*
+	Input: reg4 -filename (string)
+	Output:
+	Purpose: process the event SC_Create of System call
+	*/
+
+	int doSC_Create()
+	{
+		int virtAddr;
+		char* filename;
+
+		//  printf("\n SC_Create call...");
+		//printf("\n Reading virtual address of file name.");
+		DEBUG(dbgFile, "\n SC_Create call ...");
+		DEBUG(dbgFile, "\n Reading virtual address of filename");
+
+		// check for exception
+		virtAddr = machine->ReadRegister(R4);
+		DEBUG(dbgFile, "\n Reading filename.");
+		filename = machine->User2System(virtAddr, MAX_BUFFER_LENGTH + 1);
+		if (filename == NULL)
+		{
+			printf("\n Not enough memory in system");
+			DEBUG(dbgFile, "\n Not enough memory in system");
+			machine->WriteRegister(R2, -1);
+			delete filename;
+			return -1;
+		}
+
+		if (strlen(filename) == 0 || (strlen(filename) >= MAX_BUFFER_LENGTH + 1))
+		{
+			printf("\n Too many characters in filename: %s", filename);
+			DEBUG(dbgFile, "\n Too many characters in filename");
+			machine->WriteRegister(R2, -1);
+			delete filename;
+			return -1;
+		}
+
+		//printf("\n Finish reading filename.");
+		//printf("\n File name: '%s'",filename);
+		DEBUG(dbgFile, "\n Finish reading filename.");
+		//DEBUG(dbgFile,"\n File name : '"<<filename<<"'");
+
+		// Create file with size = 0
+		if (!fileSystem->Create(filename, 0))
+		{
+			printf("\n Error create file '%s'", filename);
+			delete filename;
+			machine->WriteRegister(R2, -1);
+			delete filename;
+			return -1;
+		}
+		//printf("\n Create file '%s' success",filename);
+
+		machine->WriteRegister(R2, 0);
+
+		machine->IncreasePC();
+		delete filename;
+		return 0;
+	}
+
+	/*
+	Input:
+	Output:
+	Purpose: End thread , because exit() was called
+	*/
+	int doSC_Exit()
+	{
+		printf("\n\n Calling SC_Exit.");
+		DEBUG(dbgFile, "\n\n Calling SC_Exit.");
+
+		// avoid harry
+		IntStatus oldLevel = interrupt->SetLevel(IntOff);
+
+		int exitStatus;
+		//ProcessHashData *processData;
+
+		exitStatus = machine->ReadRegister(R4);
+
+		// if process exited with error, print error
+		if (exitStatus != 0)
+			printf("\nProcess %s exited with error level %d", currentThread->getName(), exitStatus);
+
+		//  currentThread->Finish();
+		(void)interrupt->SetLevel(oldLevel);
+		interrupt->Halt();
+		machine->IncreasePC();
+		return 0;
+	}
+
+
+	/*
+	Input: OpenfileID = reg4
+	Output: 0- success , -1 - fail
+	Purpose: do close file
+	*/
+	int doSC_Close()
+	{
+		int id = machine->ReadRegister(R4);
+		if (id < 0 || id >= currentThread->fTab->GetMax())
+		{
+			printf("\n CloseError: Unexpected file id: %d", id);
+			return -1;
+		}
+		if (!currentThread->fTab->IsExist(id)) {
+			printf("\n CloseError: closing file id %d is not opened", id);
+			return -1;
+		}
+
+		//currentThread->
+		currentThread->fTab->fdClose(id);
+		machine->IncreasePC();
+		return 0;
+	}
+
+	/*
+	Input: offset = reg4, OpenFileID = reg5
+	Output: currentOffset, or -1 - fail
+	Purpose: do seek the pointer of a file. If seek to offset -1 mean SEEK_END
+	*/
+	int doSC_Seek()
+	{
+		int id = machine->ReadRegister(R5);
+		if (id < 0 || id >= currentThread->fTab->GetMax())
+		{
+			printf("\n SC_SeekError: Unexpected file id: %d", id);
+			return -1;
+		}
+		if (!currentThread->fTab->IsExist(id)) {
+			printf("\n SC_SeekError: seeking file id %d is not opened", id);
+			return -1;
+		}
+
+		int offset = machine->ReadRegister(R4);
+		currentThread->fTab->fdSeek(offset, id);
+		machine->IncreasePC();
+		return 0;
+	}
+
+	/*
+	Input: User space address = reg4, buffer size = reg5, OpenfileID = reg6
+	Output: -1: error
+	numbytes were read
+	Purpose: do read from file or console
+	*/
+	int doSC_Read()
+	{
+		//  printf("\n Calling SC_Read.");
+		int virtAddr = machine->ReadRegister(R4);
+		int size = machine->ReadRegister(R5);
+		int id = machine->ReadRegister(R6);
+
+		if (size <= 0)
+		{
+			printf("\nSC_ReadError: unexpected buffer size: %d", size);
+			return -1;
+		}
+
+		if (id < 0 || id >= currentThread->fTab->GetMax())
+		{
+			printf("\n ReadError: Unexpected file id: %d", id);
+			return -1;
+		}
+		if (!currentThread->fTab->IsExist(id)) {
+			printf("\n ReadError: reading file id %d is not opened", id);
+			return -1;
+		}
+
+		int rs = currentThread->fTab->fdRead(virtAddr, size, id);
+
+		machine->WriteRegister(R2, rs);
+		machine->IncreasePC();
+		return rs;
+	}
+
+	/*
+	Input: User space address = reg4, buffer size= reg5, OpenFileID = reg6
+	Output: = -1 - error
+	or = numbytes were writen
+	Purpose: do write to file or console
+	*/
+	int doSC_Write()
+	{
+		//  printf("\n Calling SC_Write.");
+		int virtAddr = machine->ReadRegister(R4);
+		int size = machine->ReadRegister(R5);
+		int id = machine->ReadRegister(R6);
+
+		if (size < 0)
+		{
+			printf("\nSC_WriteError: unexpected buffer size: %d", size);
+			return -1;
+		}
+		else if (size == 0)
+			return 0;
+
+		if (id < 0 || id >= currentThread->fTab->GetMax())
+		{
+			printf("\n WriteError: Unexpected file id: %d", id);
+			return -1;
+		}
+		if (!currentThread->fTab->IsExist(id)) {
+			printf("\n WriteError: writing file id %d is not opened", id);
+			return -1;
+		}
+
+		int rs = currentThread->fTab->fdWrite(virtAddr, size, id);
+
+		machine->WriteRegister(R2, rs);
+		machine->IncreasePC();
+		return rs;
+	}
+
+	/*
+	Input: file type (reg5)
+	0 - standard file
+	1 - read only
+	2 - encrypted
+
+	Output:  -1 - error
+	OpenFileID -success
+
+	Purpose: do Open a file
+	*/
+	int doSC_Open()
+	{
+		//  printf("\n Calling SC_Open.");
+		int virtAddr = machine->ReadRegister(R4);
+		int type = machine->ReadRegister(R5);
+
+		if (type < 0 || type > 2)
+		{
+			printf("\n SC_OpenError: unexpected file type: %d", type);
+			return -1;
+		}
+
+		int id = currentThread->fTab->FindFreeSlot();
+		if (id < 0)
+		{
+			printf("\n SC_OpenError: No free slot.");
+			return -1;
+		}
+
+		char *filename = machine->User2System(virtAddr, MAX_BUFFER_LENGTH + 1);
+
+		if (filename == NULL)
+		{
+			printf("\n Not enough memory in system");
+			DEBUG(dbgFile, "\n Not enough memory in system");
+			machine->WriteRegister(R2, -1);
+			delete filename;
+			return -1;
+		}
+
+		if (strlen(filename) == 0 || (strlen(filename) >= MAX_BUFFER_LENGTH + 1))
+		{
+			printf("\n Too many characters in filename: %s", filename);
+			DEBUG(dbgFile, "\n Too many characters in filename");
+			machine->WriteRegister(R2, -1);
+			delete filename;
+			return -1;
+		}
+
+		OpenFile* of = fileSystem->Open(filename);
+
+		if (of == NULL) {
+			printf("\n Error opening file:  %s", filename);
+			DEBUG(dbgFile, "\n Error opening file.");
+			machine->WriteRegister(2, -1);
+			delete filename;
+			return -1;
+		}
+
+		int rs = currentThread->fTab->fdOpen(virtAddr, type, id, of);
+
+		machine->WriteRegister(R2, rs);
+		machine->IncreasePC();
+		return rs;
+	}
+
+	int doSC_Exec() {
+
+		int virtAddr = machine->ReadRegister(R4);
+		char* processName = NULL;
+		processName = User2System(virtAddr, MAX_BUFFER_LENGTH + 1);
+
+		if (!processName) {
+			printf("\n Error opening process");
+			machine->WriteRegister(R2, -1);
+			return -1;
+		}
+
+		machine->WriteRegister(R2, pTab->ExecUpdate(processName));
+
+		if (processName) 
+		{
+			delete processName;
+		}
+		machine->IncreasePC();
+		return 0;
+	}
 }
 
 //----------------------------------------------------------------------
@@ -371,6 +674,30 @@ ExceptionHandler(ExceptionType which)
 				machine->ReadRegister(R4),
 				MAX_BUFFER_LENGTH));
 		
+		break;
+	case SC_Create:
+		SCHandler::doSC_Create();
+		break;
+	case SC_Exit:
+		SCHandler::doSC_Exit();
+		break;
+	case SC_Close:
+		SCHandler::doSC_Close();
+		break;
+	case SC_Seek:
+		SCHandler::doSC_Seek();
+		break;
+	case SC_Read:
+		SCHandler::doSC_Read();
+		break;
+	case SC_Write:
+		SCHandler::doSC_Write();
+		break;
+	case SC_Open:
+		SCHandler::doSC_Open();
+		break;
+	case SC_Exec:
+		SCHandler::doSC_Exec();
 		break;
 	default:
 	    printf("Unexpected user mode exception %d %d\n", which, type);

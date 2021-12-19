@@ -177,6 +177,11 @@ ReadString:
 	syscall
 	j	$31
 	.end PrintString
+Seek:
+	addiu $2, $0, SC_Seek
+	syscall
+	j	$31
+	.end Seek
 
 /* dummy function to keep gcc happy */
         .globl  __main
