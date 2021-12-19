@@ -32,6 +32,7 @@ Machine *machine;	// user program memory and registers
 SynchConsole *synchConsole;
 PTable* pTab;
 BitMap* physicalPage;
+Semaphore* addrLock;
 #endif
 
 #ifdef NETWORK
@@ -155,6 +156,7 @@ Initialize(int argc, char **argv)
 	synchConsole = new SynchConsole();
 	pTab = new PTable(MAXPROCESS);
 	physicalPage = new BitMap(NumPhysPages);
+	addrLock = new Semaphore("addrLock", 1);
 #endif
 
 #ifdef FILESYS

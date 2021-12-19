@@ -178,6 +178,9 @@ PrintString :
 	syscall
 	j	$31
 	.end PrintString
+
+	.globl Seek
+	.ent Seek
 Seek :
 	addiu $2, $0, SC_Seek
 	syscall

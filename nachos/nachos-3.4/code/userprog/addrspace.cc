@@ -62,6 +62,8 @@ SwapHeader (NoffHeader *noffH)
 
 AddrSpace::AddrSpace(OpenFile *executable)
 {
+	addrLock->P();
+
     NoffHeader noffH;
     unsigned int i, size;
 
@@ -71,7 +73,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
     	SwapHeader(&noffH);
     ASSERT(noffH.noffMagic == NOFFMAGIC);
 
-	//addrLock->P();
+	
 
 // how big is address space?
     size = noffH.code.size + noffH.initData.size + noffH.uninitData.size 
@@ -91,7 +93,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
 		printf("\nAddrSpace::Load : not enough memory for new process");
 		numPages = 0;
 		delete executable;
-		//addrLock->V();
+		addrLock->V();
 		return;
 	}
 
@@ -114,7 +116,7 @@ AddrSpace::AddrSpace(OpenFile *executable)
 // and the stack segment
     bzero(machine->mainMemory, size);
 
-	//addrLock->V();
+	addrLock->V();
 
 // then, copy in the code and data segments into memory
     if (noffH.code.size > 0) {
@@ -137,6 +139,8 @@ AddrSpace::AddrSpace(OpenFile *executable)
 
 AddrSpace::AddrSpace(char* filename) {
 
+	addrLock->P();
+
 	OpenFile* executable = fileSystem->Open(filename);
 	if (NULL == executable){
 		printf("Unable to open file %s\n", filename);
@@ -152,8 +156,7 @@ AddrSpace::AddrSpace(char* filename) {
 		SwapHeader(&noffH);
 	ASSERT(noffH.noffMagic == NOFFMAGIC);
 
-	//addrLock->P();
-
+	
 	// how big is address space?
 	size = noffH.code.size + noffH.initData.size + noffH.uninitData.size
 		+ UserStackSize;	// we need to increase the size
@@ -172,7 +175,7 @@ AddrSpace::AddrSpace(char* filename) {
 		printf("\nAddrSpace::Load : not enough memory for new process");
 		numPages = 0;
 		delete executable;
-		//addrLock->V();
+		addrLock->V();
 		return;
 	}
 
@@ -195,7 +198,7 @@ AddrSpace::AddrSpace(char* filename) {
 	// and the stack segment
 	bzero(machine->mainMemory, size);
 
-	//addrLock->V();
+	addrLock->V();
 
 	// then, copy in the code and data segments into memory
 	if (noffH.code.size > 0) {

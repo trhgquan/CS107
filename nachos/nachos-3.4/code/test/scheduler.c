@@ -5,4 +5,5 @@ int main() {
 	PrintString("Ping-Pong test starting...\n\n");
 	pingPID = Exec("./test/ping");
 	pongPID = Exec("./test/pong");
+
 }

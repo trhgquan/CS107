@@ -34,6 +34,8 @@ extern Timer *timer;				// the hardware alarm clock
 #include "synchcons.h"
 #include "ptable.h"
 #include "../userprog/bitmap.h"
+
+extern Semaphore* addrLock;
 extern Machine* machine;	// user program memory and registers
 extern SynchConsole* synchConsole;
 extern PTable* pTab;
