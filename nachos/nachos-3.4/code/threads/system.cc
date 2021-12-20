@@ -189,6 +189,7 @@ Cleanup()
 	delete synchConsole;
 	//delete pTab;
 	//delete physicalPage;
+	//delete addrLock;
 #endif
 
 #ifdef FILESYS_NEEDED

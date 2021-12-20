@@ -9,13 +9,17 @@ PCB::PCB(int id)
 	joinsem= new Semaphore("JoinSem",0);
 	exitsem= new Semaphore("ExitSem",0);
 	mutex= new Semaphore("Mutex",1);
-	pid= id;
+	pid = id;
 	exitcode= 0;
 	numwait= 0;
-	if(id)
-		parentID= currentThread->processID;
+	if (id)
+	{
+		parentID = currentThread->processID;
+	}
 	else
-		parentID= 0;
+	{
+		parentID = 0;
+	}
 	thread= NULL;
 	JoinStatus= -1;
 
@@ -71,14 +75,14 @@ char* PCB::GetNameThread()
 //-------------------------------------------------------------------
 void PCB::JoinWait()
 {
-	JoinStatus= parentID;
-	IncNumWait();
+	//JoinStatus= parentID;
+	//IncNumWait();
 	joinsem->P();
 }
 
 void PCB::JoinRelease()
 {
-	DecNumWait();
+	//DecNumWait();
 	joinsem->V();
 }
 
@@ -115,7 +119,8 @@ int PCB::Exec(char *filename, int pID)
 void MyStartProcess(int pID)
 {
 	char *filename= pTab->GetName(pID);
-	AddrSpace *space= new AddrSpace(filename);
+	AddrSpace *space;
+	space = new AddrSpace(filename);
 	if(space == NULL)
 	{
 		printf("\nLoi: Khong du bo nho de cap phat cho tien trinh !!!\n");

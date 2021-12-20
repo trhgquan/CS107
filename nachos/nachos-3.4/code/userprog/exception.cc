@@ -307,7 +307,7 @@ namespace SCHandler {
 		char* processName = NULL;
 		processName = machine->User2System(virtAddr, MAX_BUFFER_LENGTH + 1);
 
-		if (!processName) {
+		if (NULL == processName) {
 			printf("\n Error opening process");
 			machine->WriteRegister(R2, -1);
 			return -1;
