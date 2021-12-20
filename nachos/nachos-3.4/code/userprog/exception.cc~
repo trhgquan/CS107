@@ -29,7 +29,7 @@
 #define R2 2
 #define R4 4
 #define R5 5
-
+#define R6 6
 
 /*System call handler for each system call protoypes*/
 namespace SCHandler {
@@ -41,12 +41,13 @@ namespace SCHandler {
 		Output:	Return the value of natural part if the array is an number
 				Return 0 if the array is not a number
 	*/
+
 	int StringToNumber(char* buffer, int numBytes) {
-		
+
 		bool isNegative = false;	//check if negative number
 		bool isReal = false;		//check if real number
 
-		//start offset = last charcter offset
+									//start offset = last charcter offset
 		int offset = numBytes - 1;
 
 		//ignore all " " at the ends
@@ -57,12 +58,12 @@ namespace SCHandler {
 
 		//meet the first '.' => '123.000' still a integer, '123.125' would return '123'
 		if ('.' == buffer[offset]) { isReal = true; --offset; }
-		
+
 		//if the buffer is liked ".   " => 0
 		if (-1 == offset) { return 0; }
 
 		//we would never meet '-' of negative number if we traversal from the end
-		if ('-' == buffer[offset]) { return 0; }	
+		if ('-' == buffer[offset]) { return 0; }
 
 		int i;
 		int coeff = 1;
@@ -72,7 +73,7 @@ namespace SCHandler {
 			if ('-' == buffer[i]) {
 
 				//we will not accept 2 or more '-'
-				if (isNegative) 
+				if (isNegative)
 				{
 					return 0;
 				}
@@ -82,11 +83,12 @@ namespace SCHandler {
 
 			}
 			else if ('.' == buffer[i]) {
+
 				if (isReal || isNegative) 
 				{
 					return 0;
 				}
-				
+
 				//buffer like: "  -.12321 " => not a number
 				if (i > 0 && '-' == buffer[i - 1])
 				{
@@ -102,6 +104,7 @@ namespace SCHandler {
 			else if (' ' == buffer[i]) {
 				
 				//if all characters from buffer[0 : i] is not ' ' => 0
+
 				while (i > 0) {
 					--i;
 					if (' ' != buffer[i])
@@ -125,6 +128,7 @@ namespace SCHandler {
 
 		return (isNegative ? -1 * value : value);
 	}
+	
 
 	/*
 	Input:	- A number to convert to char* (int) (input)
@@ -210,7 +214,12 @@ namespace SCHandler {
 		//if (NULL == buffer) => cannot allocate to buffer
 		if (buffer) {
 			synchConsole->Write(buffer, length);
-			delete[] buffer;
+			
+			//We don't need to delete while number = 0, because we havent't new it yet
+			if (0 != number)
+			{
+				delete[] buffer;
+			}
 		}
 		else 
 		{
@@ -291,6 +300,43 @@ namespace SCHandler {
 		machine->IncreasePC();
 		delete buffer;
 	}
+
+	int doSC_Exec() {
+
+		int virtAddr = machine->ReadRegister(R4);
+		char* processName = NULL;
+		processName = machine->User2System(virtAddr, MAX_BUFFER_LENGTH + 1);
+
+		if (NULL == processName) {
+			printf("\n Error opening process");
+			machine->WriteRegister(R2, -1);
+			return -1;
+		}
+		int pid = pTab->ExecUpdate(processName);
+		machine->WriteRegister(R2, pid);
+
+		if (processName) 
+		{
+			delete processName;
+		}
+		printf("Exect %d: %s\n",pid, pTab->GetName(pid));
+		machine->IncreasePC();
+		return 0;
+	}
+
+	int doSC_Join() {
+		int id = machine->ReadRegister(R4);
+		
+		if (id < 0) {
+			printf("SC_JOIN: Invalid process\n");
+			machine->IncreasePC();
+			return -1;
+		}
+		printf("Join %d\n",id);
+		machine->WriteRegister(R2, pTab->JoinUpdate(id));
+		machine->IncreasePC();
+		return 0;
+	}
 }
 
 //----------------------------------------------------------------------
@@ -363,9 +409,39 @@ ExceptionHandler(ExceptionType which)
 				MAX_BUFFER_LENGTH));
 		
 		break;
+		/*
+	case SC_Create:
+		SCHandler::doSC_Create();
+		break;
+	case SC_Exit:
+		SCHandler::doSC_Exit();
+		break;
+	case SC_Close:
+		SCHandler::doSC_Close();
+		break;
+	case SC_Seek:
+		SCHandler::doSC_Seek();
+		break;
+	case SC_Read:
+		SCHandler::doSC_Read();
+		break;
+	case SC_Write:
+		SCHandler::doSC_Write();
+		break;
+	case SC_Open:
+		SCHandler::doSC_Open();
+		break;
+		*/
+	case SC_Exec:
+		SCHandler::doSC_Exec();
+		break;
+	case SC_Join:
+		SCHandler::doSC_Join();
+		break;
 	default:
 	    printf("Unexpected user mode exception %d %d\n", which, type);
-	    ASSERT(FALSE);
+	    //ASSERT(FALSE);
+		machine->IncreasePC();
 	}
 	break;
 

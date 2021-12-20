@@ -8,5 +8,4 @@ int main() {
 
 	Join(pingPID);
 	Join(pongPID);
-	PrintString("Fin\n");
 }

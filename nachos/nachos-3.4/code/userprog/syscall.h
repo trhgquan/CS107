@@ -147,13 +147,14 @@ void PrintChar(char character);
 void ReadString(char* buffer, int length);
 void PrintString(char* buffer);
 
+/*
 int Create(char* filename);
 void Exit();
 int Close(OpenFileId openFileId);
 int Seek(int offset, OpenFileId openFileId);
 int Read(char* buffer, int length, OpenFileId openFileId);
 int Write(char* buffer, int length, OpenFileId openFileId);
-int Open(char* filename, int fileType);
+int Open(char* filename, int fileType);*/
 
 
 #endif /* IN_ASM */

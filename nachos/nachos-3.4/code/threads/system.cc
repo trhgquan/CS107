@@ -154,8 +154,8 @@ Initialize(int argc, char **argv)
 #ifdef USER_PROGRAM
     machine = new Machine(debugUserProg);	// this must come first
 	synchConsole = new SynchConsole();
-	pTab = new PTable(MAXPROCESS);
-	physicalPage = new BitMap(NumPhysPages);
+	pTab = new PTable(10);
+	physicalPage = new BitMap(256);
 	addrLock = new Semaphore("addrLock", 1);
 #endif
 

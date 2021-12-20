@@ -312,27 +312,30 @@ namespace SCHandler {
 			machine->WriteRegister(R2, -1);
 			return -1;
 		}
+		int pid = pTab->ExecUpdate(processName);
+		machine->WriteRegister(R2, pid);
 
-		machine->WriteRegister(R2, pTab->ExecUpdate(processName));
-
+		
+		/*
 		if (processName) 
 		{
 			delete processName;
-		}
+		}*/
+		printf("Exect %d: %s \n",pid, pTab->GetName(pid));
 		machine->IncreasePC();
 		return 0;
 	}
 
 	int doSC_Join() {
 		int id = machine->ReadRegister(R4);
-		//machine->WriteRegister(R2, pTab->JoinUpdate(id));
+		
 		if (id < 0) {
 			printf("SC_JOIN: Invalid process\n");
 			machine->IncreasePC();
 			return -1;
 		}
-
-		addrLock->P();
+		printf("Join %d\n",id);
+		machine->WriteRegister(R2, pTab->JoinUpdate(id));
 		machine->IncreasePC();
 		return 0;
 	}
