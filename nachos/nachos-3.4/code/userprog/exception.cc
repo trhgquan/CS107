@@ -29,7 +29,7 @@
 #define R2 2
 #define R4 4
 #define R5 5
-
+#define R6 6
 
 /*System call handler for each system call protoypes*/
 namespace SCHandler {
@@ -300,6 +300,42 @@ namespace SCHandler {
 		machine->IncreasePC();
 		delete buffer;
 	}
+
+	int doSC_Exec() {
+
+		int virtAddr = machine->ReadRegister(R4);
+		char* processName = NULL;
+		processName = machine->User2System(virtAddr, MAX_BUFFER_LENGTH + 1);
+
+		if (NULL == processName) {
+			printf("\n Error opening process");
+			machine->WriteRegister(R2, -1);
+			return -1;
+		}
+
+		machine->WriteRegister(R2, pTab->ExecUpdate(processName));
+
+		if (processName) 
+		{
+			delete processName;
+		}
+		machine->IncreasePC();
+		return 0;
+	}
+
+	int doSC_Join() {
+		int id = machine->ReadRegister(R4);
+		//machine->WriteRegister(R2, pTab->JoinUpdate(id));
+		if (id < 0) {
+			printf("SC_JOIN: Invalid process\n");
+			machine->IncreasePC();
+			return -1;
+		}
+
+		addrLock->P();
+		machine->IncreasePC();
+		return 0;
+	}
 }
 
 //----------------------------------------------------------------------
@@ -372,9 +408,39 @@ ExceptionHandler(ExceptionType which)
 				MAX_BUFFER_LENGTH));
 		
 		break;
+		/*
+	case SC_Create:
+		SCHandler::doSC_Create();
+		break;
+	case SC_Exit:
+		SCHandler::doSC_Exit();
+		break;
+	case SC_Close:
+		SCHandler::doSC_Close();
+		break;
+	case SC_Seek:
+		SCHandler::doSC_Seek();
+		break;
+	case SC_Read:
+		SCHandler::doSC_Read();
+		break;
+	case SC_Write:
+		SCHandler::doSC_Write();
+		break;
+	case SC_Open:
+		SCHandler::doSC_Open();
+		break;
+		*/
+	case SC_Exec:
+		SCHandler::doSC_Exec();
+		break;
+	case SC_Join:
+		SCHandler::doSC_Join();
+		break;
 	default:
 	    printf("Unexpected user mode exception %d %d\n", which, type);
-	    ASSERT(FALSE);
+	    //ASSERT(FALSE);
+		machine->IncreasePC();
 	}
 	break;
 
