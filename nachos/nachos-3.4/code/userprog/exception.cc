@@ -315,10 +315,12 @@ namespace SCHandler {
 
 		machine->WriteRegister(R2, pTab->ExecUpdate(processName));
 
+		/*
 		if (processName) 
 		{
 			delete processName;
-		}
+		}*/
+
 		machine->IncreasePC();
 		return 0;
 	}
