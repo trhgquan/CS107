@@ -75,14 +75,14 @@ char* PCB::GetNameThread()
 //-------------------------------------------------------------------
 void PCB::JoinWait()
 {
-	//JoinStatus= parentID;
-	//IncNumWait();
+	JoinStatus= parentID;
+	IncNumWait();
 	joinsem->P();
 }
 
 void PCB::JoinRelease()
 {
-	//DecNumWait();
+	DecNumWait();
 	joinsem->V();
 }
 

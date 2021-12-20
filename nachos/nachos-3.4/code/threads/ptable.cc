@@ -42,7 +42,7 @@ int PTable::ExecUpdate(char* filename)
 ////////////////////////////////////////////////////////////
 
 //Kiem tra chuong trinh duoc goi co la chinh no khong
-	if(0 == strcmp(name, "./test/scheduler") ||0 == strcmp(filename,currentThread->getName()))
+	if(/*0 == strcmp(filename, "./test/scheduler") ||*/0 == strcmp(filename,currentThread->getName()))
 	{
 		printf("\nLoi: khong duoc phep goi exce chinh no !!!\n");
 		bmsem->V();
@@ -62,7 +62,6 @@ int PTable::ExecUpdate(char* filename)
 
 	pcb[ID]= new PCB(ID);
 	pcb[ID]->parentID = currentThread->processID;
-	pcb[ID]->setName(filename);
 	//bm->Mark(ID);
 	int pID= pcb[ID]->Exec(filename,ID);
 
@@ -105,7 +104,7 @@ int PTable::ExitUpdate(int ec)
 int PTable::JoinUpdate(int pID)
 {
 	
-	if(pID < 0 || pID > 9)
+	if(pID <= 0 || pID > 9)
 	{
 		printf("\nLoi: Khong ton tai process: id = %d\n",pID);
 		return -1;
