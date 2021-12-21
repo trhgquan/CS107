@@ -2,10 +2,14 @@
 
 int main() {
 	int pingPID, pongPID;
+	int pingExitCode, pongExitCode;
 	PrintString("Ping-Pong test starting...\n\n");
 	pingPID = Exec("./test/ping");
 	pongPID = Exec("./test/pong");
 
-	Join(pingPID);
-	Join(pongPID);
+	pingExitCode = Join(pingPID);
+	pongExitCode = Join(pongPID);
+
+	Exit(pingExitCode);
+	Exit(pongExitCode);
 }

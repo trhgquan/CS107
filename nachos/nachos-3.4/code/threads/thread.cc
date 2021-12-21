@@ -63,6 +63,7 @@ Thread::~Thread()
 	if (NULL != name)
 	{
 		delete[] name;
+		name = NULL;
 	}
 
 

@@ -303,40 +303,68 @@ namespace SCHandler {
 
 	int doSC_Exec() {
 
+		//Get the address of process name
 		int virtAddr = machine->ReadRegister(R4);
 		char* processName = NULL;
+
+		//Get the process name
 		processName = machine->User2System(virtAddr, MAX_BUFFER_LENGTH + 1);
 
+		//invalid process
 		if (NULL == processName) {
 			printf("\n Error opening process");
 			machine->WriteRegister(R2, -1);
 			return -1;
 		}
 
-		machine->WriteRegister(R2, pTab->ExecUpdate(processName));
+		//ExecUpdate(processName) return process id, 
+		int pid = pTab->ExecUpdate(processName);
 
-		/*
-		if (processName) 
-		{
-			delete processName;
-		}*/
+		//return this process id as result
+		machine->WriteRegister(R2, pid);
 
+		//increase program counter
 		machine->IncreasePC();
-		return 0;
+		return pid;
 	}
 
 	int doSC_Join() {
-		int id = machine->ReadRegister(R4);
-		//machine->WriteRegister(R2, pTab->JoinUpdate(id));
-		if (id < 0) {
-			printf("SC_JOIN: Invalid process\n");
+
+		//get process id
+		int pid = machine->ReadRegister(R4);
+
+		//JoinUpdate return exit code, if there is no error, exit code = 0;
+		int exitCode = pTab->JoinUpdate(pid);
+		
+		//return exit code
+		machine->WriteRegister(R2, exitCode);
+
+		//increase program counter
+		machine->IncreasePC();
+
+		return exitCode;
+	}
+
+	void doSC_Exit() {
+		
+		//Get exit code from join process
+		int joinExitCode = machine->ReadRegister(R4);
+
+		//if there are any erros => stop process
+		if (0 != joinExitCode) {
 			machine->IncreasePC();
-			return -1;
+			return;
 		}
 
-		addrLock->P();
-		machine->IncreasePC();
-		return 0;
+		//Exit process for the current threads
+		int exitCode = pTab->ExitUpdate(joinExitCode);
+
+		//Release the current thread
+		currentThread->FreeSpace();
+		currentThread->Finish();
+
+		//increase program counter
+		IncreasePC();
 	}
 }
 
@@ -410,34 +438,14 @@ ExceptionHandler(ExceptionType which)
 				MAX_BUFFER_LENGTH));
 		
 		break;
-		/*
-	case SC_Create:
-		SCHandler::doSC_Create();
-		break;
-	case SC_Exit:
-		SCHandler::doSC_Exit();
-		break;
-	case SC_Close:
-		SCHandler::doSC_Close();
-		break;
-	case SC_Seek:
-		SCHandler::doSC_Seek();
-		break;
-	case SC_Read:
-		SCHandler::doSC_Read();
-		break;
-	case SC_Write:
-		SCHandler::doSC_Write();
-		break;
-	case SC_Open:
-		SCHandler::doSC_Open();
-		break;
-		*/
 	case SC_Exec:
 		SCHandler::doSC_Exec();
 		break;
 	case SC_Join:
 		SCHandler::doSC_Join();
+		break;
+	case SC_Exit:
+		SCHandler::doSC_Exit();
 		break;
 	default:
 	    printf("Unexpected user mode exception %d %d\n", which, type);

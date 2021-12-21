@@ -132,7 +132,7 @@ int PTable::JoinUpdate(int pID)
 	if(ec != 0)
 	{
 		printf("\nProcess exit with exitcode EC = %d ",ec);
-		return -1;
+		return ec;
 	}
 
 	pcb[pID]->ExitRelease();	//cho phep tien trinh con ket thuc
