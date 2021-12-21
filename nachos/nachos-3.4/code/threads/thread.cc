@@ -38,6 +38,7 @@ Thread::Thread(char* threadName)
     stackTop = NULL;
     stack = NULL;
     status = JUST_CREATED;
+	processID = 0;
 #ifdef USER_PROGRAM
     space = NULL;
 #endif
@@ -58,6 +59,12 @@ Thread::Thread(char* threadName)
 Thread::~Thread()
 {
     DEBUG('t', "Deleting thread \"%s\"\n", name);
+
+    if (name)
+    {
+	delete[] name;
+	name = NULL;
+    }
 
     ASSERT(this != currentThread);
     if (stack != NULL)
@@ -233,7 +240,13 @@ Thread::Sleep ()
 //	member function.
 //----------------------------------------------------------------------
 
-static void ThreadFinish()    { currentThread->Finish(); }
+void Thread::ThreadFinish()    { 
+	if (currentThread->space) {
+		delete currentThread->space;
+		//currentThread->space = NULL;
+	}
+	currentThread->Finish(); 
+}
 static void InterruptEnable() { interrupt->Enable(); }
 void ThreadPrint(int arg){ Thread *t = (Thread *)arg; t->Print(); }
 

@@ -37,6 +37,7 @@
 #define SC_PrintChar 14
 #define SC_ReadString 15
 #define SC_PrintString 16
+#define SC_Seek 17
 
 #ifndef IN_ASM
 
@@ -145,6 +146,16 @@ char ReadChar();
 void PrintChar(char character);
 void ReadString(char* buffer, int length);
 void PrintString(char* buffer);
+
+/*
+int Create(char* filename);
+void Exit();
+int Close(OpenFileId openFileId);
+int Seek(int offset, OpenFileId openFileId);
+int Read(char* buffer, int length, OpenFileId openFileId);
+int Write(char* buffer, int length, OpenFileId openFileId);
+int Open(char* filename, int fileType);*/
+
 
 #endif /* IN_ASM */
 

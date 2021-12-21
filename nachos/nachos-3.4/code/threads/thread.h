@@ -88,6 +88,7 @@ class Thread {
 					// is called
 
     // basic thread operations
+	int processID;
 
     void Fork(VoidFunctionPtr func, int arg); 	// Make thread run (*func)(arg)
     void Yield();  				// Relinquish the CPU if any 
@@ -99,7 +100,7 @@ class Thread {
     void CheckOverflow();   			// Check if thread has 
 						// overflowed its stack
     void setStatus(ThreadStatus st) { status = st; }
-    char* getName() { return (name); }
+    char* getName() { return name; }
     void Print() { printf("%s, ", name); }
 
   private:
@@ -123,6 +124,7 @@ class Thread {
     int userRegisters[NumTotalRegs];	// user-level CPU register state
 
   public:
+    static void ThreadFinish();
     void SaveUserState();		// save user-level register state
     void RestoreUserState();		// restore user-level register state
 

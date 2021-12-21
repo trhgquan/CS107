@@ -29,6 +29,7 @@
 #define R2 2
 #define R4 4
 #define R5 5
+#define R6 6
 
 
 /*System call handler for each system call protoypes*/
@@ -41,12 +42,13 @@ namespace SCHandler {
 		Output:	Return the value of natural part if the array is an number
 				Return 0 if the array is not a number
 	*/
+
 	int StringToNumber(char* buffer, int numBytes) {
-		
+
 		bool isNegative = false;	//check if negative number
 		bool isReal = false;		//check if real number
 
-		//start offset = last charcter offset
+									//start offset = last charcter offset
 		int offset = numBytes - 1;
 
 		//ignore all " " at the ends
@@ -57,12 +59,12 @@ namespace SCHandler {
 
 		//meet the first '.' => '123.000' still a integer, '123.125' would return '123'
 		if ('.' == buffer[offset]) { isReal = true; --offset; }
-		
+
 		//if the buffer is liked ".   " => 0
 		if (-1 == offset) { return 0; }
 
 		//we would never meet '-' of negative number if we traversal from the end
-		if ('-' == buffer[offset]) { return 0; }	
+		if ('-' == buffer[offset]) { return 0; }
 
 		int i;
 		int coeff = 1;
@@ -72,7 +74,7 @@ namespace SCHandler {
 			if ('-' == buffer[i]) {
 
 				//we will not accept 2 or more '-'
-				if (isNegative) 
+				if (isNegative)
 				{
 					return 0;
 				}
@@ -82,11 +84,12 @@ namespace SCHandler {
 
 			}
 			else if ('.' == buffer[i]) {
+
 				if (isReal || isNegative) 
 				{
 					return 0;
 				}
-				
+
 				//buffer like: "  -.12321 " => not a number
 				if (i > 0 && '-' == buffer[i - 1])
 				{
@@ -102,6 +105,7 @@ namespace SCHandler {
 			else if (' ' == buffer[i]) {
 				
 				//if all characters from buffer[0 : i] is not ' ' => 0
+
 				while (i > 0) {
 					--i;
 					if (' ' != buffer[i])
@@ -125,6 +129,7 @@ namespace SCHandler {
 
 		return (isNegative ? -1 * value : value);
 	}
+	
 
 	/*
 	Input:	- A number to convert to char* (int) (input)
@@ -210,7 +215,12 @@ namespace SCHandler {
 		//if (NULL == buffer) => cannot allocate to buffer
 		if (buffer) {
 			synchConsole->Write(buffer, length);
-			delete[] buffer;
+			
+			//We don't need to delete while number = 0, because we havent't new it yet
+			if (0 != number)
+			{
+				delete[] buffer;
+			}
 		}
 		else 
 		{
@@ -291,6 +301,72 @@ namespace SCHandler {
 		machine->IncreasePC();
 		delete buffer;
 	}
+
+	int doSC_Exec() {
+
+		//Get the address of process name
+		int virtAddr = machine->ReadRegister(R4);
+		char* processName = NULL;
+
+		//Get the process name
+		processName = machine->User2System(virtAddr, MAX_BUFFER_LENGTH + 1);
+
+		//invalid process
+		if (NULL == processName) {
+			printf("\n Error opening process");
+			machine->WriteRegister(R2, -1);
+			return -1;
+		}
+
+		//ExecUpdate(processName) return process id, 
+		int pid = pTab->ExecUpdate(processName);
+
+		//return this process id as result
+		machine->WriteRegister(R2, pid);
+
+		//increase program counter
+		machine->IncreasePC();
+
+		return pid;
+	}
+
+	int doSC_Join() {
+		
+		//get process id
+		int pid = machine->ReadRegister(R4);
+
+		//JoinUpdate return exit code, if there is no error, exit code = 0;
+		int exitCode = pTab->JoinUpdate(pid);
+		
+		//return exit code
+		machine->WriteRegister(R2, exitCode);
+
+		//increase program counter
+		machine->IncreasePC();
+
+		return exitCode;
+	}
+
+	void doSC_Exit() {
+		
+		//Get exit code from join process
+		int joinExitCode = machine->ReadRegister(R4);
+
+		//if there are any erros => stop process
+		if (0 != joinExitCode) {
+			machine->IncreasePC();
+			return;
+		}
+			
+		//Exit process for the current threads
+		int exitCode = pTab->ExitUpdate(joinExitCode);
+
+		//Release the current thread
+		Thread::ThreadFinish();
+
+		//increase program counter
+		machine->IncreasePC();
+	}
 }
 
 //----------------------------------------------------------------------
@@ -363,9 +439,20 @@ ExceptionHandler(ExceptionType which)
 				MAX_BUFFER_LENGTH));
 		
 		break;
+	case SC_Exec:
+		SCHandler::doSC_Exec();
+		break;
+	case SC_Join:
+		SCHandler::doSC_Join();
+		break;
+/*
+	case SC_Exit:
+		SCHandler::doSC_Exit();
+		break;*/
 	default:
 	    printf("Unexpected user mode exception %d %d\n", which, type);
-	    ASSERT(FALSE);
+	    //ASSERT(FALSE);
+		machine->IncreasePC();
 	}
 	break;
 

@@ -29,6 +29,7 @@
 #define R2 2
 #define R4 4
 #define R5 5
+#define R6 6
 
 
 /*System call handler for each system call protoypes*/
@@ -300,6 +301,72 @@ namespace SCHandler {
 		machine->IncreasePC();
 		delete buffer;
 	}
+
+	int doSC_Exec() {
+
+		//Get the address of process name
+		int virtAddr = machine->ReadRegister(R4);
+		char* processName = NULL;
+
+		//Get the process name
+		processName = machine->User2System(virtAddr, MAX_BUFFER_LENGTH + 1);
+
+		//invalid process
+		if (NULL == processName) {
+			printf("\n Error opening process");
+			machine->WriteRegister(R2, -1);
+			return -1;
+		}
+
+		//ExecUpdate(processName) return process id, 
+		int pid = pTab->ExecUpdate(processName);
+
+		//return this process id as result
+		machine->WriteRegister(R2, pid);
+
+		//increase program counter
+		machine->IncreasePC();
+
+		return pid;
+	}
+
+	int doSC_Join() {
+		
+		//get process id
+		int pid = machine->ReadRegister(R4);
+
+		//JoinUpdate return exit code, if there is no error, exit code = 0;
+		int exitCode = pTab->JoinUpdate(pid);
+		
+		//return exit code
+		machine->WriteRegister(R2, exitCode);
+
+		//increase program counter
+		machine->IncreasePC();
+
+		return exitCode;
+	}
+
+	void doSC_Exit() {
+		
+		//Get exit code from join process
+		int joinExitCode = machine->ReadRegister(R4);
+
+		//if there are any erros => stop process
+		if (0 != joinExitCode) {
+			machine->IncreasePC();
+			return;
+		}
+			
+		//Exit process for the current threads
+		int exitCode = pTab->ExitUpdate(joinExitCode);
+
+		//Release the current thread
+		Thread::ThreadFinish();
+
+		//increase program counter
+		machine->IncreasePC();
+	}
 }
 
 //----------------------------------------------------------------------
@@ -372,9 +439,19 @@ ExceptionHandler(ExceptionType which)
 				MAX_BUFFER_LENGTH));
 		
 		break;
+	case SC_Exec:
+		SCHandler::doSC_Exec();
+		break;
+	case SC_Join:
+		SCHandler::doSC_Join();
+		break;
+	case SC_Exit:
+		SCHandler::doSC_Exit();
+		break;
 	default:
 	    printf("Unexpected user mode exception %d %d\n", which, type);
-	    ASSERT(FALSE);
+	    //ASSERT(FALSE);
+		machine->IncreasePC();
 	}
 	break;
 
