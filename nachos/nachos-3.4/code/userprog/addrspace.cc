@@ -129,16 +129,23 @@ AddrSpace::AddrSpace(char* filename) {
 	if (noffH.code.size > 0) {
 		DEBUG('a', "Initializing code segment, at 0x%x, size %d\n",
 			noffH.code.virtualAddr, noffH.code.size);
-		for (int i = 0; i<numPages; ++i)
-		executable->ReadAt(&(machine->mainMemory[noffH.code.virtualAddr]) + (pageTable[i].physicalPage*PageSize),
-			PageSize, noffH.code.inFileAddr + (i*PageSize));
+
+		for (int i = 0; i < numPages; ++i) {
+			executable->ReadAt(&(machine->mainMemory[noffH.code.virtualAddr]) + (pageTable[i].physicalPage*PageSize), 
+				PageSize, 
+				noffH.code.inFileAddr + (i*PageSize));
+		}
 	}
 	if (noffH.initData.size > 0) {
 		DEBUG('a', "Initializing data segment, at 0x%x, size %d\n",
 			noffH.initData.virtualAddr, noffH.initData.size);
-		for (int i = 0; i < numPages; ++i)
-		executable->ReadAt(&(machine->mainMemory[noffH.initData.virtualAddr]) + (pageTable[i].physicalPage*PageSize),
-			PageSize, noffH.initData.inFileAddr + (i*PageSize));
+
+
+		for (int i = 0; i < numPages; ++i) {
+			executable->ReadAt(&(machine->mainMemory[noffH.initData.virtualAddr]) + (pageTable[i].physicalPage*PageSize), 
+				PageSize, 
+				noffH.initData.inFileAddr + (i*PageSize));
+		}
 	}
 
 
@@ -153,10 +160,11 @@ AddrSpace::AddrSpace(char* filename) {
 
 AddrSpace::~AddrSpace()
 {
-   for (int i = 0; i<numPages; ++i) {
-	physicalPage->Clear(pageTable[i].physicalPage);
-   }
-   delete pageTable;
+	for (int i = 0; i < numPages; i++)
+	{
+		physicalPage->Clear(pageTable[i].physicalPage);
+	}
+	delete pageTable;
 }
 
 //----------------------------------------------------------------------

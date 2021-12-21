@@ -120,7 +120,7 @@ AddrSpace::AddrSpace(char* filename) {
 
 	// zero out the entire address space, to zero the unitialized data segment 
 	// and the stack segment
-	bzero(machine->mainMemory, size);
+	//bzero(machine->mainMemory, size);
 
 	addrLock->V();
 
@@ -129,16 +129,34 @@ AddrSpace::AddrSpace(char* filename) {
 	if (noffH.code.size > 0) {
 		DEBUG('a', "Initializing code segment, at 0x%x, size %d\n",
 			noffH.code.virtualAddr, noffH.code.size);
+<<<<<<< HEAD
 		for (int i = 0; i<numPages; ++i)
 		executable->ReadAt(&(machine->mainMemory[noffH.code.virtualAddr]) + (pageTable[i].physicalPage*PageSize),
 			PageSize, noffH.code.inFileAddr + (i*PageSize));
+=======
+
+		for (int i = 0; i < numPages; ++i) {
+			executable->ReadAt(&(machine->mainMemory[noffH.code.virtualAddr]) + (pageTable[i].physicalPage*PageSize), 
+				PageSize, 
+				noffH.code.inFileAddr + (i*PageSize));
+		}
+>>>>>>> 0df7c85410f1852857d7c5b0ccf9fa024c3924dc
 	}
 	if (noffH.initData.size > 0) {
 		DEBUG('a', "Initializing data segment, at 0x%x, size %d\n",
 			noffH.initData.virtualAddr, noffH.initData.size);
+<<<<<<< HEAD
 		for (int i = 0; i < numPages; ++i)
 		executable->ReadAt(&(machine->mainMemory[noffH.initData.virtualAddr]) + (pageTable[i].physicalPage*PageSize),
 			PageSize, noffH.initData.inFileAddr + (i*PageSize));
+=======
+
+		for (int i = 0; i < numPages; ++i) {
+			executable->ReadAt(&(machine->mainMemory[noffH.initData.virtualAddr]) + (pageTable[i].physicalPage*PageSize), 
+				PageSize, 
+				noffH.initData.inFileAddr + (i*PageSize));
+		}
+>>>>>>> 0df7c85410f1852857d7c5b0ccf9fa024c3924dc
 	}
 
 
@@ -153,10 +171,18 @@ AddrSpace::AddrSpace(char* filename) {
 
 AddrSpace::~AddrSpace()
 {
+<<<<<<< HEAD
    for (int i = 0; i<numPages; ++i) {
 	physicalPage->Clear(pageTable[i].physicalPage);
    }
    delete pageTable;
+=======
+	for (int i = 0; i < numPages; i++)
+	{
+		physicalPage->Clear(pageTable[i].physicalPage);
+	}
+	delete pageTable;
+>>>>>>> 0df7c85410f1852857d7c5b0ccf9fa024c3924dc
 }
 
 //----------------------------------------------------------------------

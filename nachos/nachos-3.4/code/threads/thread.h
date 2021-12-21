@@ -124,6 +124,7 @@ class Thread {
     int userRegisters[NumTotalRegs];	// user-level CPU register state
 
   public:
+    static void ThreadFinish();
     void SaveUserState();		// save user-level register state
     void RestoreUserState();		// restore user-level register state
 

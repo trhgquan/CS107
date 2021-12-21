@@ -100,7 +100,6 @@ ping.o: ping.c
 	$(CC) $(CFLAGS) -c ping.c
 ping: ping.o start.o
 	$(LD) $(LDFLAGS) start.o ping.o -o ping.coff
-	../bin/coff2noff ping.coff ping
 
 pong.o: pong.c
 	$(CC) $(CFLAGS) -c pong.c
@@ -113,4 +112,4 @@ scheduler.o: scheduler.c
 scheduler: scheduler.o start.o
 	$(LD) $(LDFLAGS) start.o scheduler.o -o scheduler.coff
 	../bin/coff2noff scheduler.coff scheduler
-	
+	../bin/coff2noff ping.coff ping

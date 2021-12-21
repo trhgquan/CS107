@@ -108,8 +108,6 @@ int PCB::Exec(char *filename, int pID)
 		return -1;
 	}
 	thread->processID= pID;
-	printf("%d - %s\n", pID, filename);
-	printf("%d - %s\n", pID, GetNameThread());
 	parentID = currentThread->processID;
 	thread->Fork(MyStartProcess,pID);
 	mutex->V();
@@ -134,13 +132,10 @@ void MyStartProcess(int pID)
 	space->InitRegisters();		// set the initial register values
 	space->RestoreState();		// load page table register
 	
-	printf("%s test_msp1\n", filename);
-
+	
 	machine->Run();			// jump to the user progam
 
-	printf("%s test_msp2\n", filename);
 	ASSERT(FALSE);			// machine->Run never returns;
 						// the address space exits
 						// by doing the syscall "exit"
-	printf("test_msp4\n");
 }

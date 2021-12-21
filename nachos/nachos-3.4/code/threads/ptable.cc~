@@ -90,13 +90,19 @@ int PTable::ExitUpdate(int ec)
 
 	pcb[pID]->SetExitCode(ec);
 	
+	/*
 	if(pcb[pID]->JoinStatus != -1)
 	{
+		printf("\nhoho\n");
 		pcb[pID]->JoinRelease();
 		pcb[pID]->ExitWait();
 		Remove(pID);	
 	}
-	else
+	else {	printf("\nhehe\n");
+		Remove(pID);}*/
+
+pcb[pID]->JoinRelease();
+		pcb[pID]->ExitWait();
 		Remove(pID);
 	return ec;
 }
@@ -123,7 +129,6 @@ int PTable::JoinUpdate(int pID)
 		return -1;
 	}
 /////////////////////////////////////////////////////////////////////////////////////////////
-	
 
 	pcb[pID]->JoinWait(); 	//doi den khi tien trinh con ket thuc
 
@@ -132,9 +137,9 @@ int PTable::JoinUpdate(int pID)
 	if(ec != 0)
 	{
 		printf("\nProcess exit with exitcode EC = %d ",ec);
-		return -1;
+		return ec;
 	}
-
+	
 	pcb[pID]->ExitRelease();	//cho phep tien trinh con ket thuc
 	
 	return 0;
