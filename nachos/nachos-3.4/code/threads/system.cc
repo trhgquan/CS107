@@ -154,7 +154,7 @@ Initialize(int argc, char **argv)
 #ifdef USER_PROGRAM
     machine = new Machine(debugUserProg);	// this must come first
 	synchConsole = new SynchConsole();
-	pTab = new PTable(10);
+	pTab = new PTable(MAXPROCESS);
 	physicalPage = new BitMap(256);
 	addrLock = new Semaphore("addrLock", 1);
 #endif
@@ -187,9 +187,9 @@ Cleanup()
 #ifdef USER_PROGRAM
     delete machine;
 	delete synchConsole;
-	//delete pTab;
-	//delete physicalPage;
-	//delete addrLock;
+	delete pTab;
+	delete physicalPage;
+	delete addrLock;
 #endif
 
 #ifdef FILESYS_NEEDED
